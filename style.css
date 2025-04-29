@@ -48,7 +48,7 @@ body {
 
 .subheader {
     font-size: 14px;
-    color: #ffffff;
+    /*color: #ffffff;*/
     text-align: center;
     margin-bottom: 24px;
 }
@@ -60,7 +60,7 @@ body {
     padding: 12px 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     margin-bottom: 20px;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: space-between;
 }
@@ -68,7 +68,7 @@ body {
 .welcome-text {
     font-size: 16px;
     font-weight: 500;
-    color: #ffffff;
+    /*color: #ffffff;*/
 }
 
 /* Card Style */
@@ -92,7 +92,7 @@ body {
 .data-set-title {
     font-size: 18px;
     font-weight: 600;
-    color: #ffffff;
+    /*color: #ffffff;*/
     margin-top: 20px;
     margin-bottom: 12px;
     border-left: 4px solid #1a73e8;
@@ -103,7 +103,7 @@ body {
 .label {
     font-size: 14px;
     font-weight: 500;
-    color: #ffffff;
+    /*color: #ffffff;*/
     margin-bottom: 4px;
     display: block;
 }
@@ -157,7 +157,7 @@ body {
     border-radius: 8px;
     padding: 8px 12px;
     font-size: 14px;
-    background-color: #222225;
+    /*background-color: #222225;*/
 }
 
 .stTextArea > div > div > textarea {
@@ -165,7 +165,7 @@ body {
     border-radius: 8px;
     padding: 12px;
     font-size: 14px;
-	background-color: #222225;
+	/*background-color: #222225;*/
 }
 
 /* Tabs */
