@@ -541,7 +541,7 @@ offer_categories = {
 # Streamlit app
 st.markdown('<div class="app-container">', unsafe_allow_html=True)
 st.markdown('<div class="header">CRM 3.3 Staging Test Data Creation Tools</div>', unsafe_allow_html=True)
-st.markdown('<div class="subheader">Please start creation between 10:00 AM - 5:30 PM daily.</div>', unsafe_allow_html=True)
+st.markdown('<div class="subheader">Please start creation between 10:00 AM - 5:30 PM only on Weekday. </div>', unsafe_allow_html=True)
 
 # User name input (simulating modal)
 if "user_name" not in st.session_state:
