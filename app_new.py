@@ -4,6 +4,7 @@ import string
 import datetime
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as minidom
+import re
 
 st.set_page_config(page_title="CRM 3.3 Staging Test Data Creation Tools")
 
@@ -68,6 +69,35 @@ def random_transaction_id():
 def random_customer_id():
     random8 = str(random.randint(0, 99999999)).zfill(8)
     return f"10000{random8}"
+
+def parse_msisdn_output(xml_output):
+    try:
+        root = ET.fromstring(xml_output)
+        msisdns = []
+        for msisdn_elem in root.findall(".//sch:msisdn", namespaces={"sch": "http://oss.huawei.com/webservice/external/services/schema"}):
+            msisdn = msisdn_elem.text
+            if msisdn and msisdn.isdigit() and 10 <= len(msisdn) <= 12:
+                msisdns.append(msisdn)
+        return msisdns
+    except Exception as e:
+        st.error(f"Failed to parse MSISDN XML: {str(e)}")
+        return []
+
+def parse_iccid_imsi_output(sql_output):
+    try:
+        lines = sql_output.strip().split("\n")
+        data = []
+        for line in lines:  # Parse all rows, no header skip
+            if line.strip():
+                parts = re.split(r'\s+', line.strip())
+                if len(parts) >= 3:
+                    iccid, imsi, _ = parts[:3]
+                    if iccid.isdigit() and 19 <= len(iccid) <= 20 and imsi.isdigit() and len(imsi) == 15:
+                        data.append({"iccid": iccid, "imsi": imsi})
+        return data
+    except Exception as e:
+        st.error(f"Failed to parse ICCID/IMSI output: {str(e)}")
+        return []
 
 def generate_dummy_data(index):
     dob = random_date_of_birth()
@@ -606,14 +636,34 @@ else:
 </soapenv:Body>
 </soapenv:Envelope>"""
                     st.text_area("MSISDN XML", xml, height=200, key="msisdn_xml")
+                    st.session_state.show_msisdn_input = True
                     st.success("✔ Run this in SoapUI")
+            
+            if st.session_state.get("show_msisdn_input", False):
+                msisdn_output = st.text_area("Paste MSISDN Output Here", height=150, key="msisdn_output")
+                if msisdn_output:
+                    msisdns = parse_msisdn_output(msisdn_output)
+                    if msisdns:
+                        st.session_state.msisdns = msisdns
+                        st.success(f"Extracted {len(msisdns)} MSISDNs. They will be auto-filled in the Data Input tab.")
+
             with col4:
                 if st.button("Get ICCID", key="get_iccid", use_container_width=True):
                     sql = """SELECT ICCID, IMSI, RES_STATUS_ID 
 FROM INVENTORY.RES_SIM
 WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '102';"""
                     st.text_area("ICCID SQL", sql, height=100, key="iccid_sql")
+                    st.session_state.show_iccid_input = True
                     st.success("✔ Run this in SQL")
+            
+            if st.session_state.get("show_iccid_input", False):
+                iccid_output = st.text_area("Paste ICCID Output Here", height=150, key="iccid_output")
+                if iccid_output:
+                    iccid_imsi_data = parse_iccid_imsi_output(iccid_output)
+                    if iccid_imsi_data:
+                        st.session_state.iccid_imsi_data = iccid_imsi_data
+                        st.success(f"Extracted {len(iccid_imsi_data)} ICCID/IMSI pairs. They will be auto-filled in the Data Input tab.")
+
             st.markdown('</div>', unsafe_allow_html=True)
 
     # Tab 2: Configuration
@@ -625,6 +675,26 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
             if st.button("Generate Input Form", key="generate_form", use_container_width=True):
                 st.session_state.generated_data_sets_count = end_row
                 st.session_state.data_sets = [generate_dummy_data(i + 1) for i in range(end_row)]
+                
+                # Auto-fill MSISDN, ICCID, and IMSI if available
+                msisdns = st.session_state.get("msisdns", [])
+                iccid_imsi_data = st.session_state.get("iccid_imsi_data", [])
+                
+                for i in range(end_row):
+                    # Auto-fill MSISDN
+                    if i < len(msisdns):
+                        st.session_state[f"msisdn_{i}"] = msisdns[i]
+                    else:
+                        st.session_state[f"msisdn_{i}"] = ""
+                    
+                    # Auto-fill ICCID and IMSI
+                    if i < len(iccid_imsi_data):
+                        st.session_state[f"iccid_{i}"] = iccid_imsi_data[i]["iccid"]
+                        st.session_state[f"imsi_{i}"] = iccid_imsi_data[i]["imsi"]
+                    else:
+                        st.session_state[f"iccid_{i}"] = ""
+                        st.session_state[f"imsi_{i}"] = ""
+                
                 st.success("Input form generated! Proceed to the Data Input tab.")
             st.markdown('</div>', unsafe_allow_html=True)
 
@@ -640,13 +710,13 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     col_msisdn, col_iccid, col_imsi = st.columns(3)
                     with col_msisdn:
                         st.markdown('<span class="label">MSISDN <span class="required">*</span></span>', unsafe_allow_html=True)
-                        msisdn = st.text_input("", placeholder="e.g., 601002033200", key=f"msisdn_{i}")
+                        msisdn = st.text_input("", value=st.session_state.get(f"msisdn_{i}", ""), placeholder="e.g., 601002033200", key=f"msisdn_{i}")
                     with col_iccid:
                         st.markdown('<span class="label">ICCID <span class="required">*</span></span>', unsafe_allow_html=True)
-                        iccid = st.text_input("", placeholder="e.g., 89601619041600000091", key=f"iccid_{i}")
+                        iccid = st.text_input("", value=st.session_state.get(f"iccid_{i}", ""), placeholder="e.g., 89601619041600000091", key=f"iccid_{i}")
                     with col_imsi:
                         st.markdown('<span class="label">IMSI <span class="required">*</span></span>', unsafe_allow_html=True)
-                        imsi = st.text_input("", placeholder="e.g., 502161082020265", key=f"imsi_{i}")
+                        imsi = st.text_input("", value=st.session_state.get(f"imsi_{i}", ""), placeholder="e.g., 502161082020265", key=f"imsi_{i}")
                     col_telecom, col_offer = st.columns(2)
                     with col_telecom:
                         st.markdown('<span class="label">Telecom Type <span class="required">*</span></span>', unsafe_allow_html=True)
