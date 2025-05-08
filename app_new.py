@@ -5,6 +5,7 @@ import datetime
 import xml.etree.ElementTree as ET
 import xml.dom.minidom as minidom
 import re
+import uuid
 
 st.set_page_config(page_title="CRM 3.3 Staging Test Data Creation Tools")
 
@@ -22,7 +23,7 @@ if "first_load" not in st.session_state:
 else:
     st.session_state.first_load = False  # Ensure the spinner doesn't show again
 
-# Utility functions from script.js
+# Utility functions
 def format_date_yymmdd(date):
     year = str(date.year)[-2:]
     month = str(date.month).zfill(2)
@@ -87,7 +88,7 @@ def parse_iccid_imsi_output(sql_output):
     try:
         lines = sql_output.strip().split("\n")
         data = []
-        for line in lines:  # Parse all rows, no header skip
+        for line in lines:
             if line.strip():
                 parts = re.split(r'\s+', line.strip())
                 if len(parts) >= 3:
@@ -441,7 +442,6 @@ def generate_soap_xml(data_sets):
         new_acct = ET.SubElement(create_request, "sch:newAcctSubscriberInfos")
         account_info = ET.SubElement(new_acct, "bas:accountInfo")
         account_info_fields = data["newAcctSubscriberInfos"][0]["accountInfo"]
-        # Define the order of fields explicitly
         account_fields_order = [
             "accountId", "customerId", "accountCode", "billcycleType", "title",
             "accountName", "converge_flag", "billLanguage", "initialCreditLimit", "status",
@@ -538,6 +538,18 @@ offer_categories = {
     "144882": "Postpaid"
 }
 
+# Offer ID to name mapping for selectbox
+offer_id_to_name = {
+    "411155": "CelcomDigi Prepaid 5G Kuning (A01)",
+    "411156": "CelcomDigi Prepaid 5G Kuning (A02)",
+    "101045": "Digi Prepaid LiVE",
+    "411158": "Raja Kombo 5G (A01)",
+    "214292": "CelcomDigi Postpaid 5G 60 XV",
+    "96181": "E-Reload Postpaid Plan_Agent",
+    "96180": "E-Reload Postpaid Plan_Master",
+    "144882": "Go Digi 78"
+}
+
 # Streamlit app
 st.markdown('<div class="app-container">', unsafe_allow_html=True)
 st.markdown('<div class="header">CRM 3.3 Staging Test Data Creation Tools</div>', unsafe_allow_html=True)
@@ -576,6 +588,9 @@ else:
     # Sidebar for global settings
     with st.sidebar:
         st.markdown('<div class="sidebar-title">Settings</div>', unsafe_allow_html=True)
+        is_prepaid = st.checkbox("Tick for Prepaid Data Sets (Max 5)\nUntick for Postpaid Data Sets (Max 20)", value=True, key="is_prepaid")
+        max_data_sets = 5 if is_prepaid else 20
+        st.session_state.max_data_sets = max_data_sets  # Store max_data_sets in session state
         telecom_type = st.selectbox(
             "Telecom Type",
             options=["33 - Mobile Voice", "34 - Broadband"],
@@ -583,9 +598,10 @@ else:
             key="telecom_type"
         )
         telecom_type_value = telecom_type.split(" - ")[0]
+        end_row_options = list(range(1, max_data_sets + 1))
         end_row = st.selectbox(
-            "Number of Data Sets (max 5)",
-            options=[1, 2, 3, 4, 5],
+            f"Number of Data Sets (max {max_data_sets})",
+            options=end_row_options,
             index=0,
             key="end_row"
         )
@@ -671,15 +687,84 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
         with st.container():
             st.markdown('<div class="card">', unsafe_allow_html=True)
             st.markdown('<div class="section-title">Step 2: Configure Data Sets</div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="info-text">Number of Data Sets Selected: <strong>{end_row}</strong></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="info-text">Number of Data Sets Selected: <strong>{end_row}</strong> (Max: {max_data_sets})</div>', unsafe_allow_html=True)
+            
+            # Plan selection for multiple data sets
+            plan_option = None
+            if end_row > 1:
+                prepaid_plan_options = [
+                    ("ALL_411155", "ALL CelcomDigi Prepaid 5G Kuning (A01)"),
+                    ("ALL_411156", "ALL CelcomDigi Prepaid 5G Kuning (A02)"),
+                    ("MIX_3_411155_2_411156", "MIX 3 CelcomDigi Prepaid 5G Kuning (A01) & 2 CelcomDigi Prepaid 5G Kuning (A02)")
+                ]
+                postpaid_plan_options = [
+                    ("ALL_214292", "ALL CelcomDigi Postpaid 5G 60 XV"),
+                    ("ALL_96181", "ALL E-Reload Postpaid Plan_Agent"),
+                    ("ALL_96180", "ALL E-Reload Postpaid Plan_Master"),
+                    ("ALL_144882", "ALL Go Digi 78"),
+                    ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
+                    ("MIX_10_96181_10_96180", "MIX 10 E-Reload Postpaid Plan_Agent, 10 E-Reload Postpaid Plan_Master"),
+                    ("MIX_10_214292_10_144882", "MIX 10 CelcomDigi Postpaid 5G 60 XV, 10 Go Digi 78")
+                ]
+                plan_options = prepaid_plan_options if is_prepaid else postpaid_plan_options
+                plan_option = st.selectbox(
+                    "Select Plan for Data Sets",
+                    options=plan_options,
+                    format_func=lambda x: x[1],
+                    key="plan_option"
+                )[0]
+
             if st.button("Generate Input Form", key="generate_form", use_container_width=True):
                 st.session_state.generated_data_sets_count = end_row
                 st.session_state.data_sets = [generate_dummy_data(i + 1) for i in range(end_row)]
                 
-                # Auto-fill MSISDN, ICCID, and IMSI if available
+                # Auto-fill MSISDN, ICCID, IMSI, Telecom Type, and Offer ID
                 msisdns = st.session_state.get("msisdns", [])
                 iccid_imsi_data = st.session_state.get("iccid_imsi_data", [])
                 
+                # Define Offer ID assignments based on plan_option
+                offer_ids = [""] * end_row
+                if end_row > 1 and plan_option:
+                    if is_prepaid:
+                        if plan_option == "ALL_411155":
+                            offer_ids = ["411155"] * end_row
+                        elif plan_option == "ALL_411156":
+                            offer_ids = ["411156"] * end_row
+                        elif plan_option == "MIX_3_411155_2_411156":
+                            offer_ids = ["411155"] * min(3, end_row) + ["411156"] * (end_row - min(3, end_row))
+                    else:
+                        if plan_option == "ALL_214292":
+                            offer_ids = ["214292"] * end_row
+                        elif plan_option == "ALL_96181":
+                            offer_ids = ["96181"] * end_row
+                        elif plan_option == "ALL_96180":
+                            offer_ids = ["96180"] * end_row
+                        elif plan_option == "ALL_144882":
+                            offer_ids = ["144882"] * end_row
+                        elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
+                            sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
+                            remaining = end_row
+                            offer_ids = (
+                                ["214292"] * min(sets_per_plan, remaining) +
+                                ["96181"] * min(sets_per_plan, max(0, remaining - sets_per_plan)) +
+                                ["96180"] * min(sets_per_plan, max(0, remaining - 2 * sets_per_plan)) +
+                                ["144882"] * max(0, remaining - 3 * sets_per_plan)
+                            )
+                        elif plan_option == "MIX_10_96181_10_96180":
+                            sets_per_plan = min(10, end_row // 2 + (1 if end_row % 2 > 0 else 0))
+                            remaining = end_row
+                            offer_ids = (
+                                ["96181"] * min(sets_per_plan, remaining) +
+                                ["96180"] * max(0, remaining - sets_per_plan)
+                            )
+                        elif plan_option == "MIX_10_214292_10_144882":
+                            sets_per_plan = min(10, end_row // 2 + (1 if end_row % 2 > 0 else 0))
+                            remaining = end_row
+                            offer_ids = (
+                                ["214292"] * min(sets_per_plan, remaining) +
+                                ["144882"] * max(0, remaining - sets_per_plan)
+                            )
+
                 for i in range(end_row):
                     # Auto-fill MSISDN
                     if i < len(msisdns):
@@ -694,6 +779,14 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     else:
                         st.session_state[f"iccid_{i}"] = ""
                         st.session_state[f"imsi_{i}"] = ""
+                    
+                    # Set default Telecom Type from sidebar
+                    st.session_state[f"telecomType_{i}"] = telecom_type
+                    
+                    # Set Offer ID based on plan_option
+                    offer_id = offer_ids[i]
+                    offer_name = offer_id_to_name.get(offer_id, "Select an Offer")
+                    st.session_state[f"offerId_{i}"] = (offer_id, offer_name)
                 
                 st.success("Input form generated! Proceed to the Data Input tab.")
             st.markdown('</div>', unsafe_allow_html=True)
@@ -720,28 +813,43 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     col_telecom, col_offer = st.columns(2)
                     with col_telecom:
                         st.markdown('<span class="label">Telecom Type <span class="required">*</span></span>', unsafe_allow_html=True)
-                        telecom_type = st.selectbox(
+                        telecom_type_input = st.selectbox(
                             "",
                             options=["", "33 - Mobile Voice", "34 - Broadband"],
+                            index=["", "33 - Mobile Voice", "34 - Broadband"].index(st.session_state.get(f"telecomType_{i}", telecom_type)),
                             format_func=lambda x: x if x else "Select Telecom Type",
                             key=f"telecomType_{i}"
                         )
                     with col_offer:
                         st.markdown('<span class="label">Offer ID <span class="required">*</span></span>', unsafe_allow_html=True)
+                        offer_options = [
+                            ("", "Select an Offer"),
+                            ("411155", "CelcomDigi Prepaid 5G Kuning (A01)"),
+                            ("411156", "CelcomDigi Prepaid 5G Kuning (A02)"),
+                            ("101045", "Digi Prepaid LiVE"),
+                            ("411158", "Raja Kombo 5G (A01)"),
+                            ("214292", "CelcomDigi Postpaid 5G 60 XV"),
+                            ("96181", "E-Reload Postpaid Plan_Agent"),
+                            ("96180", "E-Reload Postpaid Plan_Master"),
+                            ("144882", "Go Digi 78")
+                        ]
+                        # Filter offer options based on Prepaid/Postpaid selection
+                        if is_prepaid:
+                            offer_options = [(oid, name) for oid, name in offer_options if oid == "" or offer_categories.get(oid) == "Prepaid"]
+                        else:
+                            offer_options = [(oid, name) for oid, name in offer_options if oid == "" or offer_categories.get(oid) == "Postpaid"]
+                        # Get the stored Offer ID tuple, default to ("", "Select an Offer") if not set
+                        stored_offer = st.session_state.get(f"offerId_{i}", ("", "Select an Offer"))
+                        # Find the index of the stored offer in offer_options, default to 0 if not found
+                        try:
+                            offer_index = [(oid, name) for oid, name in offer_options].index(stored_offer)
+                        except ValueError:
+                            offer_index = 0
                         offer_id = st.selectbox(
                             "",
-                            options=[
-                                ("", "Select an Offer"),
-                                ("411155", "CelcomDigi Prepaid 5G Kuning (A01)"),
-                                ("411156", "CelcomDigi Prepaid 5G Kuning (A02)"),
-                                ("101045", "Digi Prepaid LiVE"),
-                                ("411158", "Raja Kombo 5G (A01)"),
-                                ("214292", "CelcomDigi Postpaid 5G 60 XV"),
-                                ("96181", "E-Reload Postpaid Plan_Agent"),
-                                ("96180", "E-Reload Postpaid Plan_Master"),
-                                ("144882", "Go Digi 78")
-                            ],
+                            options=offer_options,
                             format_func=lambda x: x[1],
+                            index=offer_index,
                             key=f"offerId_{i}"
                         )
                     col_converge, col_paid = st.columns(2)
@@ -797,14 +905,14 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                 if st.button("Generate SOAP XML", key="generate_soap", use_container_width=True):
                     with st.spinner("Generating SOAP XML..."):
                         try:
-                            # Sanitize data_sets to ensure it has the expected structure
-                            if not isinstance(st.session_state.get("data_sets"), list):
+                            # Sanitize data_sets
+                            if not isinstance(st.session_state.get("data_sets"), list) or len(st.session_state.data_sets) > max_data_sets:
                                 st.warning("Invalid data_sets in session state. Reinitializing.")
-                                st.session_state.generated_data_sets_count = st.session_state.get("generated_data_sets_count", 1)
+                                st.session_state.generated_data_sets_count = min(st.session_state.get("generated_data_sets_count", 1), max_data_sets)
                                 st.session_state.data_sets = [generate_dummy_data(i + 1) for i in range(st.session_state.generated_data_sets_count)]
                             data_sets = st.session_state.data_sets
 
-                            # Define expected keys for customerInfo (excluding nested structures)
+                            # Validate customerInfo structure
                             expected_customer_info_keys = {
                                 "customerId", "customerFlag", "customerCode", "idType", "idNumber",
                                 "expiryDateofcertificate", "title", "firstName", "middleName", "lastName",
@@ -814,8 +922,6 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                                 "info4", "info5", "customerAddressInfos", "customerRelationInfos", "corporationInfo"
                             }
                             nested_keys = {"customerAddressInfos", "customerRelationInfos", "corporationInfo"}
-
-                            # Validate the structure of data_sets[0]["customerInfo"]
                             for i in range(len(data_sets)):
                                 customer_info = data_sets[i]["customerInfo"]
                                 if set(customer_info.keys()) != expected_customer_info_keys:
@@ -826,7 +932,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                                 for key, value in customer_info.items():
                                     if key not in nested_keys:
                                         if not isinstance(value, str):
-                                            st.warning(f"Invalid value type for {key} in data_sets[{i}]['customerInfo']. Expected string, got {type(value)}. Reinitializing data_sets.")
+                                            st.warning(f"Invalid value type for {key} in data_sets[{i}]['customerInfo']. Reinitializing data_sets.")
                                             st.session_state.data_sets = [generate_dummy_data(j + 1) for j in range(st.session_state.generated_data_sets_count)]
                                             data_sets = st.session_state.data_sets
                                             break
@@ -835,13 +941,13 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                                 msisdn = st.session_state.get(f"msisdn_{i}", "")
                                 iccid = st.session_state.get(f"iccid_{i}", "")
                                 imsi = st.session_state.get(f"imsi_{i}", "")
-                                telecom_type = st.session_state.get(f"telecomType_{i}", "")
+                                telecom_type_input = st.session_state.get(f"telecomType_{i}", telecom_type)
                                 valid_telecom_options = ["", "33 - Mobile Voice", "34 - Broadband"]
-                                if telecom_type not in valid_telecom_options:
+                                if telecom_type_input not in valid_telecom_options:
                                     st.warning(f"Invalid Telecom Type for Data Set {i + 1}. Resetting to default.")
-                                    telecom_type = ""
-                                    st.session_state[f"telecomType_{i}"] = ""
-                                telecom_type_value = telecom_type.split(" - ")[0] if telecom_type else ""
+                                    telecom_type_input = telecom_type
+                                    st.session_state[f"telecomType_{i}"] = telecom_type
+                                telecom_type_value = telecom_type_input.split(" - ")[0] if telecom_type_input else ""
                                 raw_offer_id = st.session_state.get(f"offerId_{i}", ("", ""))
                                 if not isinstance(raw_offer_id, tuple) or len(raw_offer_id) != 2:
                                     raise ValueError(f"Expected a 2-element tuple for offerId_{i}, got {raw_offer_id}")
@@ -865,9 +971,15 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                                 if offer_id not in offer_categories:
                                     st.error(f"Invalid Offer ID {offer_id} for Data Set {i + 1}.")
                                     break
+                                if is_prepaid and offer_categories[offer_id] != "Prepaid":
+                                    st.error(f"Selected Offer ID {offer_id} is not a Prepaid offer for Data Set {i + 1}.")
+                                    break
+                                if not is_prepaid and offer_categories[offer_id] != "Postpaid":
+                                    st.error(f"Selected Offer ID {offer_id} is not a Postpaid offer for Data Set {i + 1}.")
+                                    break
 
-                                is_prepaid = offer_categories[offer_id] == "Prepaid"
-                                converge_flag = "0" if is_prepaid else "1"
+                                is_prepaid_offer = offer_categories[offer_id] == "Prepaid"
+                                converge_flag = "0" if is_prepaid_offer else "1"
                                 paid_flag = converge_flag
 
                                 valid_flag_options = ["", "0 - Prepaid", "1 - Postpaid"]
@@ -927,13 +1039,11 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
         with st.container():
             st.markdown('<div class="card">', unsafe_allow_html=True)
             st.markdown('<div class="section-title">Step 5: Run Additional Queries</div>', unsafe_allow_html=True)
-            # Collect MSISDN values from all data sets and remove '60' prefix
             msisdns = []
             if "generated_data_sets_count" in st.session_state:
                 for i in range(st.session_state.generated_data_sets_count):
                     msisdn = st.session_state.get(f"msisdn_{i}", "")
                     if msisdn and msisdn.isdigit() and 10 <= len(msisdn) <= 12 and msisdn.startswith("60"):
-                        # Remove '60' prefix
                         msisdn = msisdn[2:]
                         msisdns.append(msisdn)
             msisdn_list = ", ".join(f"'{msisdn}'" for msisdn in msisdns) if msisdns else "'MSISDNHERE'"
