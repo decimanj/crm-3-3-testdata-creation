@@ -667,7 +667,7 @@ else:
                 if st.button("Get ICCID", key="get_iccid", use_container_width=True):
                     sql = """SELECT ICCID, IMSI, RES_STATUS_ID 
 FROM INVENTORY.RES_SIM
-WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '102';"""
+WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '102' ORDER BY ICCID DESC;"""
                     st.text_area("ICCID SQL", sql, height=100, key="iccid_sql")
                     st.session_state.show_iccid_input = True
                     st.success("✔ Run this in SQL")
