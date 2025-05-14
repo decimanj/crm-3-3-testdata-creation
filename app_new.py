@@ -588,8 +588,8 @@ else:
     # Sidebar for global settings
     with st.sidebar:
         st.markdown('<div class="sidebar-title">Settings</div>', unsafe_allow_html=True)
-        is_prepaid = st.checkbox("Tick for Prepaid Data Sets (Max 5)\nUntick for Postpaid Data Sets (Max 20)", value=True, key="is_prepaid")
-        max_data_sets = 5 if is_prepaid else 20
+        is_prepaid = st.checkbox("Tick for Prepaid Data Sets (Max 5)\nUntick for Postpaid Data Sets (Max 10)", value=True, key="is_prepaid")
+        max_data_sets = 5 if is_prepaid else 10
         st.session_state.max_data_sets = max_data_sets  # Store max_data_sets in session state
         telecom_type = st.selectbox(
             "Telecom Type",
