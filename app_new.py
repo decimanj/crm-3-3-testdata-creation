@@ -544,6 +544,7 @@ offer_id_to_name = {
     "411156": "CelcomDigi Prepaid 5G Kuning (A02)",
     "101045": "Digi Prepaid LiVE",
     "411158": "Raja Kombo 5G (A01)",
+    "215105": "Digi Prepaid NEXT",
     "214292": "CelcomDigi Postpaid 5G 60 XV",
     "96181": "E-Reload Postpaid Plan_Agent",
     "96180": "E-Reload Postpaid Plan_Master",
