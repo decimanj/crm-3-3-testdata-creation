@@ -828,6 +828,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             ("411156", "CelcomDigi Prepaid 5G Kuning (A02)"),
                             ("101045", "Digi Prepaid LiVE"),
                             ("411158", "Raja Kombo 5G (A01)"),
+                            ("215105", "Digi Prepaid NEXT"),
                             ("214292", "CelcomDigi Postpaid 5G 60 XV"),
                             ("96181", "E-Reload Postpaid Plan_Agent"),
                             ("96180", "E-Reload Postpaid Plan_Master"),
