@@ -532,6 +532,7 @@ offer_categories = {
     "411156": "Prepaid",
     "101045": "Prepaid",
     "411158": "Prepaid",
+    "215105": "Prepaid",
     "214292": "Postpaid",
     "96181": "Postpaid",
     "96180": "Postpaid",
