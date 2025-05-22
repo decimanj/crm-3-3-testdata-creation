@@ -697,6 +697,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                 prepaid_plan_options = [
                     ("ALL_411155", "ALL CelcomDigi Prepaid 5G Kuning (A01)"),
                     ("ALL_411156", "ALL CelcomDigi Prepaid 5G Kuning (A02)"),
+                    ("ALL_215105", "ALL Digi Prepaid NEXT"),
                     ("MIX_3_411155_2_411156", "MIX 3 CelcomDigi Prepaid 5G Kuning (A01) & 2 CelcomDigi Prepaid 5G Kuning (A02)")
                 ]
                 postpaid_plan_options = [
@@ -732,6 +733,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["411155"] * end_row
                         elif plan_option == "ALL_411156":
                             offer_ids = ["411156"] * end_row
+                        elif plan_option == "ALL_215105":
+                            offer_ids = ["215105"] * end_row                            
                         elif plan_option == "MIX_3_411155_2_411156":
                             offer_ids = ["411155"] * min(3, end_row) + ["411156"] * (end_row - min(3, end_row))
                     else:
