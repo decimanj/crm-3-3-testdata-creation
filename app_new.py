@@ -533,6 +533,7 @@ offer_categories = {
     "101045": "Prepaid",
     "411158": "Prepaid",
     "215105": "Prepaid",
+    "87964": "Prepaid",
     "214292": "Postpaid",
     "96181": "Postpaid",
     "96180": "Postpaid",
@@ -546,6 +547,7 @@ offer_id_to_name = {
     "101045": "Digi Prepaid LiVE",
     "411158": "Raja Kombo 5G (A01)",
     "215105": "Digi Prepaid NEXT",
+    "87964": "DiGi Best Prepaid v4",
     "214292": "CelcomDigi Postpaid 5G 60 XV",
     "96181": "E-Reload Postpaid Plan_Agent",
     "96180": "E-Reload Postpaid Plan_Master",
@@ -698,6 +700,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_411155", "ALL CelcomDigi Prepaid 5G Kuning (A01)"),
                     ("ALL_411156", "ALL CelcomDigi Prepaid 5G Kuning (A02)"),
                     ("ALL_215105", "ALL Digi Prepaid NEXT"),
+                    ("ALL_87964", "ALL DiGi Best Prepaid v4"),
                     ("MIX_3_411155_2_411156", "MIX 3 CelcomDigi Prepaid 5G Kuning (A01) & 2 CelcomDigi Prepaid 5G Kuning (A02)")
                 ]
                 postpaid_plan_options = [
@@ -734,7 +737,9 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                         elif plan_option == "ALL_411156":
                             offer_ids = ["411156"] * end_row
                         elif plan_option == "ALL_215105":
-                            offer_ids = ["215105"] * end_row                            
+                            offer_ids = ["215105"] * end_row
+                        elif plan_option == "ALL_87964":
+                            offer_ids = ["87964"] * end_row
                         elif plan_option == "MIX_3_411155_2_411156":
                             offer_ids = ["411155"] * min(3, end_row) + ["411156"] * (end_row - min(3, end_row))
                     else:
@@ -834,6 +839,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             ("101045", "Digi Prepaid LiVE"),
                             ("411158", "Raja Kombo 5G (A01)"),
                             ("215105", "Digi Prepaid NEXT"),
+                            ("87964", "DiGi Best Prepaid v4"),
                             ("214292", "CelcomDigi Postpaid 5G 60 XV"),
                             ("96181", "E-Reload Postpaid Plan_Agent"),
                             ("96180", "E-Reload Postpaid Plan_Master"),
