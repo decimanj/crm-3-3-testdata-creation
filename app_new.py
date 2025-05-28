@@ -534,10 +534,12 @@ offer_categories = {
     "411158": "Prepaid",
     "215105": "Prepaid",
     "87964": "Prepaid",
+    "108879": "Prepaid",
     "214292": "Postpaid",
     "96181": "Postpaid",
     "96180": "Postpaid",
-    "144882": "Postpaid"
+    "144882": "Postpaid",
+    "167034": "Postpaid"
 }
 
 # Offer ID to name mapping for selectbox
@@ -548,10 +550,12 @@ offer_id_to_name = {
     "411158": "Raja Kombo 5G (A01)",
     "215105": "Digi Prepaid NEXT",
     "87964": "DiGi Best Prepaid v4",
+    "108879": "Digi Home Broadband",
     "214292": "CelcomDigi Postpaid 5G 60 XV",
     "96181": "E-Reload Postpaid Plan_Agent",
     "96180": "E-Reload Postpaid Plan_Master",
-    "144882": "Go Digi 78"
+    "144882": "Go Digi 78",
+    "167034": "Broadband Monthly 105",
 }
 
 # Streamlit app
@@ -701,6 +705,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_411156", "ALL CelcomDigi Prepaid 5G Kuning (A02)"),
                     ("ALL_215105", "ALL Digi Prepaid NEXT"),
                     ("ALL_87964", "ALL DiGi Best Prepaid v4"),
+                    ("ALL_108879", "ALL Digi Home Broadband"),
                     ("MIX_3_411155_2_411156", "MIX 3 CelcomDigi Prepaid 5G Kuning (A01) & 2 CelcomDigi Prepaid 5G Kuning (A02)")
                 ]
                 postpaid_plan_options = [
@@ -708,6 +713,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_96181", "ALL E-Reload Postpaid Plan_Agent"),
                     ("ALL_96180", "ALL E-Reload Postpaid Plan_Master"),
                     ("ALL_144882", "ALL Go Digi 78"),
+                    ("ALL_167034", "ALL Broadband Monthly 105"),
                     ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
                     ("MIX_10_96181_10_96180", "MIX 10 E-Reload Postpaid Plan_Agent, 10 E-Reload Postpaid Plan_Master"),
                     ("MIX_10_214292_10_144882", "MIX 10 CelcomDigi Postpaid 5G 60 XV, 10 Go Digi 78")
@@ -740,6 +746,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["215105"] * end_row
                         elif plan_option == "ALL_87964":
                             offer_ids = ["87964"] * end_row
+                        elif plan_option == "ALL_108879":
+                            offer_ids = ["108879"] * end_row
                         elif plan_option == "MIX_3_411155_2_411156":
                             offer_ids = ["411155"] * min(3, end_row) + ["411156"] * (end_row - min(3, end_row))
                     else:
@@ -751,6 +759,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["96180"] * end_row
                         elif plan_option == "ALL_144882":
                             offer_ids = ["144882"] * end_row
+                        elif plan_option == "ALL_167034":
+                            offer_ids = ["167034"] * end_row
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
                             remaining = end_row
@@ -840,10 +850,12 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             ("411158", "Raja Kombo 5G (A01)"),
                             ("215105", "Digi Prepaid NEXT"),
                             ("87964", "DiGi Best Prepaid v4"),
+                            ("108879", "Digi Home Broadband"),
                             ("214292", "CelcomDigi Postpaid 5G 60 XV"),
                             ("96181", "E-Reload Postpaid Plan_Agent"),
                             ("96180", "E-Reload Postpaid Plan_Master"),
-                            ("144882", "Go Digi 78")
+                            ("144882", "Go Digi 78"),
+                       ("167034","Broadband Monthly 105")
                         ]
                         # Filter offer options based on Prepaid/Postpaid selection
                         if is_prepaid:
