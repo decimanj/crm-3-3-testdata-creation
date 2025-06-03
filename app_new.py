@@ -540,7 +540,8 @@ offer_categories = {
     "96181": "Postpaid",
     "96180": "Postpaid",
     "144882": "Postpaid",
-    "167034": "Postpaid"
+    "167034": "Postpaid",
+    "118888": "Postpaid"
 }
 
 # Offer ID to name mapping for selectbox
@@ -558,6 +559,7 @@ offer_id_to_name = {
     "96180": "E-Reload Postpaid Plan_Master",
     "144882": "Go Digi 78",
     "167034": "Broadband Monthly 105",
+    "118888": "Biz Handy",
 }
 
 # Streamlit app
@@ -717,6 +719,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_96180", "ALL E-Reload Postpaid Plan_Master"),
                     ("ALL_144882", "ALL Go Digi 78"),
                     ("ALL_167034", "ALL Broadband Monthly 105"),
+                    ("ALL_118888)", "ALL Biz Handy"),
                     ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
                     ("MIX_10_96181_10_96180", "MIX 10 E-Reload Postpaid Plan_Agent, 10 E-Reload Postpaid Plan_Master"),
                     ("MIX_10_214292_10_144882", "MIX 10 CelcomDigi Postpaid 5G 60 XV, 10 Go Digi 78")
@@ -764,6 +767,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["96180"] * end_row
                         elif plan_option == "ALL_144882":
                             offer_ids = ["144882"] * end_row
+                        elif plan_option == "ALL_167034":
+                            offer_ids = ["118888"] * end_row
                         elif plan_option == "ALL_167034":
                             offer_ids = ["167034"] * end_row
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
@@ -861,6 +866,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             ("96181", "E-Reload Postpaid Plan_Agent"),
                             ("96180", "E-Reload Postpaid Plan_Master"),
                             ("144882", "Go Digi 78"),
+                            ("118888", "Biz Handy"),
                             ("167034","Broadband Monthly 105")
                         ]
                         # Filter offer options based on Prepaid/Postpaid selection
