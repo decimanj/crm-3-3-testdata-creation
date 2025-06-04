@@ -547,6 +547,7 @@ offer_categories = {
     "87964": "Prepaid",
     "108879": "Prepaid",
     "175179": "Prepaid",
+    "411161": "Prepaid",
     "214292": "Postpaid",
     "96181": "Postpaid",
     "96180": "Postpaid",
@@ -565,6 +566,7 @@ offer_id_to_name = {
     "87964": "DiGi Best Prepaid v4",
     "108879": "Digi Home Broadband",
     "175179": "TONE WOW",
+    "411161": "Raja Kombo 5G (A02)",
     "214292": "CelcomDigi Postpaid 5G 60 XV",
     "96181": "E-Reload Postpaid Plan_Agent",
     "96180": "E-Reload Postpaid Plan_Master",
@@ -722,6 +724,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_87964", "ALL DiGi Best Prepaid v4"),
                     ("ALL_108879", "ALL Digi Home Broadband"),
                     ("ALL_175179", "ALL TONE WOW"),
+                    ("ALL_411161", "ALL Raja Kombo 5G (A02)"),
                     ("MIX_3_411155_2_411156", "MIX 3 CelcomDigi Prepaid 5G Kuning (A01) & 2 CelcomDigi Prepaid 5G Kuning (A02)")
                 ]
                 postpaid_plan_options = [
@@ -765,6 +768,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["87964"] * end_row
                         elif plan_option == "ALL_108879":
                             offer_ids = ["108879"] * end_row
+                        elif plan_option == "ALL_411161":
+                            offer_ids = ["411161"] * end_row
                         elif plan_option == "ALL_175179":
                             offer_ids = ["175179"] * end_row    
                         elif plan_option == "MIX_3_411155_2_411156":
@@ -873,6 +878,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             ("87964", "DiGi Best Prepaid v4"),
                             ("108879", "Digi Home Broadband"),
                             ("175179", "TONE WOW"),
+                            ("411161", "Raja Kombo 5G (A02)"),
                             ("214292", "CelcomDigi Postpaid 5G 60 XV"),
                             ("96181", "E-Reload Postpaid Plan_Agent"),
                             ("96180", "E-Reload Postpaid Plan_Master"),
