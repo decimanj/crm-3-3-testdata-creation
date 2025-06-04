@@ -115,6 +115,7 @@ def generate_dummy_data(index):
         "customerInfo": {
             "customerId": random_customer_id(),
             "customerFlag": "1",
+            "subscriberType": "",
             "customerCode": random_string(8),
             "idType": "1",
             "idNumber": random_id_number(dob),
@@ -362,15 +363,25 @@ def generate_soap_xml(data_sets):
     
     # Customer Info with specific fields commented
     customer_info_fields = data_sets[0]["customerInfo"]
-    for key, value in customer_info_fields.items():
-        if key not in ["customerAddressInfos", "customerRelationInfos", "corporationInfo", "numOfSubPerCondition", "info1", "info2", "info3", "info4", "info5"]:
-            if isinstance(value, str):
+    # Define the order of fields to ensure consistency
+    customer_info_fields_order = [
+        "customerId", "customerFlag", "subscriberType", "customerCode", "idType", 
+        "idNumber", "expiryDateofcertificate", "title", "firstName", "middleName", 
+        "lastName", "nationality", "customerLang", "customerLevel", "customerGroup", 
+        "race", "occupation", "customerDateofBirth", "customerGender", "maritalStatus", 
+        "customerStatus"
+    ]
+    for key in customer_info_fields_order:
+        if key in customer_info_fields:
+            if isinstance(customer_info_fields[key], str):
                 if key == "customerId":
-                    customer_info.append(ET.Comment(f"Randomized 13-digit customerId starting with 10000 \n                    <bas:customerId>{value}</bas:customerId>"))
+                    customer_info.append(ET.Comment(f"Randomized 13-digit customerId starting with 10000 \n                    <bas:customerId>{customer_info_fields[key]}</bas:customerId>"))
                 elif key == "customerCode":
-                    customer_info.append(ET.Comment(f"Customer code <bas:customerCode>{value}</bas:customerCode>"))
+                    customer_info.append(ET.Comment(f"Customer code <bas:customerCode>{customer_info_fields[key]}</bas:customerCode>"))
+                elif key == "subscriberType":
+                    customer_info.append(ET.Comment(f"<bas:subscriberType>{customer_info_fields[key]}</bas:subscriberType>"))
                 else:
-                    ET.SubElement(customer_info, f"bas:{key}").text = value
+                    ET.SubElement(customer_info, f"bas:{key}").text = customer_info_fields[key]
     
     # Add customerSegment with a preceding comment
     customer_info_children = list(customer_info)
@@ -541,7 +552,7 @@ offer_categories = {
     "96180": "Postpaid",
     "144882": "Postpaid",
     "167034": "Postpaid",
-    "118888": "Postpaid"
+    "118888": "Postpaid"    
 }
 
 # Offer ID to name mapping for selectbox
@@ -719,7 +730,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_96180", "ALL E-Reload Postpaid Plan_Master"),
                     ("ALL_144882", "ALL Go Digi 78"),
                     ("ALL_167034", "ALL Broadband Monthly 105"),
-                    ("ALL_118888)", "ALL Biz Handy"),
+                    ("ALL_118888", "ALL Biz Handy"),
                     ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
                     ("MIX_10_96181_10_96180", "MIX 10 E-Reload Postpaid Plan_Agent, 10 E-Reload Postpaid Plan_Master"),
                     ("MIX_10_214292_10_144882", "MIX 10 CelcomDigi Postpaid 5G 60 XV, 10 Go Digi 78")
@@ -768,9 +779,9 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                         elif plan_option == "ALL_144882":
                             offer_ids = ["144882"] * end_row
                         elif plan_option == "ALL_167034":
-                            offer_ids = ["118888"] * end_row
-                        elif plan_option == "ALL_167034":
                             offer_ids = ["167034"] * end_row
+                        elif plan_option == "ALL_118888":
+                            offer_ids = ["118888"] * end_row
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
                             remaining = end_row
@@ -922,7 +933,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                         "name": "customerInfo",
                         "fields": {
                             k: v for k, v in data_sets[0]["customerInfo"].items()
-                            if k not in ["customerSegment", "createDate"] and isinstance(v, str)
+                            if k not in ["customerSegment", "createDate", "customerAddressInfos", "customerRelationInfos", "corporationInfo"] and isinstance(v, str)
                         }
                     },
                     {"name": "transactionCommonInfo", "fields": data_sets[0]["transactionCommonInfo"]}
@@ -930,11 +941,20 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                 for section in sections:
                     with st.expander(section["name"], expanded=False):
                         for key, value in section["fields"].items():
-                            st.text_input(
-                                key,
-                                value=value,
-                                key=f"{section['name']}_{key}"
-                            )
+                            # Special handling for subscriberType to make it clear and user-friendly
+                            if key == "subscriberType":
+                                st.text_input(
+                                    "Subscriber Type",
+                                    value=st.session_state.get(f"customerInfo_subscriberType", value),
+                                    placeholder="e.g., 1-Mass, 6-Corporate",
+                                    key=f"customerInfo_subscriberType"
+                                )
+                            else:
+                                st.text_input(
+                                    key,
+                                    value=st.session_state.get(f"{section['name']}_{key}", value),
+                                    key=f"{section['name']}_{key}"
+                                )
                 st.markdown('</div>', unsafe_allow_html=True)
 
                 # Generate SOAP XML button
@@ -947,33 +967,34 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                                 st.session_state.generated_data_sets_count = min(st.session_state.get("generated_data_sets_count", 1), max_data_sets)
                                 st.session_state.data_sets = [generate_dummy_data(i + 1) for i in range(st.session_state.generated_data_sets_count)]
                             data_sets = st.session_state.data_sets
-
+                
                             # Validate customerInfo structure
-                            expected_customer_info_keys = {
-                                "customerId", "customerFlag", "customerCode", "idType", "idNumber",
+                            expected_customer_info_keys = [
+                                "customerId", "customerFlag", "subscriberType", "customerCode", "idType", "idNumber",
                                 "expiryDateofcertificate", "title", "firstName", "middleName", "lastName",
                                 "nationality", "customerLang", "customerLevel", "customerGroup", "race",
                                 "occupation", "customerDateofBirth", "customerGender", "maritalStatus",
                                 "customerStatus", "numOfSubPerCondition", "info1", "info2", "info3",
                                 "info4", "info5", "customerAddressInfos", "customerRelationInfos", "corporationInfo"
-                            }
-                            nested_keys = {"customerAddressInfos", "customerRelationInfos", "corporationInfo"}
+                            ]
+                            nested_keys = ["customerAddressInfos", "customerRelationInfos", "corporationInfo"]
                             for i in range(len(data_sets)):
                                 customer_info = data_sets[i]["customerInfo"]
-                                if set(customer_info.keys()) != expected_customer_info_keys:
+                                if sorted(customer_info.keys()) != sorted(expected_customer_info_keys):
                                     st.warning(f"Invalid keys in data_sets[{i}]['customerInfo']. Reinitializing data_sets.")
                                     st.session_state.data_sets = [generate_dummy_data(j + 1) for j in range(st.session_state.generated_data_sets_count)]
                                     data_sets = st.session_state.data_sets
                                     break
                                 for key, value in customer_info.items():
-                                    if key not in nested_keys:
-                                        if not isinstance(value, str):
-                                            st.warning(f"Invalid value type for {key} in data_sets[{i}]['customerInfo']. Reinitializing data_sets.")
-                                            st.session_state.data_sets = [generate_dummy_data(j + 1) for j in range(st.session_state.generated_data_sets_count)]
-                                            data_sets = st.session_state.data_sets
-                                            break
-
+                                    if key not in nested_keys and not isinstance(value, str):
+                                        st.warning(f"Invalid value type for {key} in data_sets[{i}]['customerInfo']. Reinitializing data_sets.")
+                                        st.session_state.data_sets = [generate_dummy_data(j + 1) for j in range(st.session_state.generated_data_sets_count)]
+                                        data_sets = st.session_state.data_sets
+                                        break
+                
+                            # Update data sets
                             for i in range(st.session_state.generated_data_sets_count):
+                                # Validate inputs
                                 msisdn = st.session_state.get(f"msisdn_{i}", "")
                                 iccid = st.session_state.get(f"iccid_{i}", "")
                                 imsi = st.session_state.get(f"imsi_{i}", "")
@@ -988,7 +1009,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                                 if not isinstance(raw_offer_id, tuple) or len(raw_offer_id) != 2:
                                     raise ValueError(f"Expected a 2-element tuple for offerId_{i}, got {raw_offer_id}")
                                 offer_id = raw_offer_id[0]
-
+                
                                 if not msisdn or not msisdn.isdigit() or not (10 <= len(msisdn) <= 12):
                                     st.error(f"Invalid MSISDN for Data Set {i + 1}. Must be 10-12 digits.")
                                     break
@@ -1013,11 +1034,11 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                                 if not is_prepaid and offer_categories[offer_id] != "Postpaid":
                                     st.error(f"Selected Offer ID {offer_id} is not a Postpaid offer for Data Set {i + 1}.")
                                     break
-
+                
                                 is_prepaid_offer = offer_categories[offer_id] == "Prepaid"
                                 converge_flag = "0" if is_prepaid_offer else "1"
                                 paid_flag = converge_flag
-
+                
                                 valid_flag_options = ["", "0 - Prepaid", "1 - Postpaid"]
                                 current_converge_flag = st.session_state.get(f"converge_flag_{i}", "")
                                 current_paid_flag = st.session_state.get(f"paidFlag_{i}", "")
@@ -1025,7 +1046,19 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                                     st.session_state[f"converge_flag_{i}"] = f"{converge_flag} - {'Prepaid' if converge_flag == '0' else 'Postpaid'}"
                                 if current_paid_flag not in valid_flag_options:
                                     st.session_state[f"paidFlag_{i}"] = f"{paid_flag} - {'Prepaid' if paid_flag == '0' else 'Postpaid'}"
-
+                
+                                # Update customerInfo fields from Advanced Settings first
+                                customer_info_fields = {
+                                    k: v for k, v in data_sets[i]["customerInfo"].items()
+                                    if k not in nested_keys
+                                }
+                                for key in customer_info_fields:
+                                    if isinstance(data_sets[i]["customerInfo"][key], str):
+                                        session_key = f"customerInfo_{key}"
+                                        if session_key in st.session_state:
+                                            data_sets[i]["customerInfo"][key] = st.session_state[session_key]
+                
+                                # Update newAcctSubscriberInfos fields
                                 data_sets[i]["newAcctSubscriberInfos"][0]["accountInfo"]["converge_flag"] = converge_flag
                                 data_sets[i]["newAcctSubscriberInfos"][0]["newSubscriberInfos"]["subscriberInfo"]["paidFlag"] = paid_flag
                                 data_sets[i]["newAcctSubscriberInfos"][0]["newSubscriberInfos"]["subscriberInfo"]["msisdn"] = msisdn
@@ -1033,10 +1066,14 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                                 data_sets[i]["newAcctSubscriberInfos"][0]["newSubscriberInfos"]["subscriberInfo"]["imsi"] = imsi
                                 data_sets[i]["newAcctSubscriberInfos"][0]["newSubscriberInfos"]["subscriberInfo"]["telecomType"] = telecom_type_value
                                 data_sets[i]["newAcctSubscriberInfos"][0]["newSubscriberInfos"]["primaryOfferInfo"]["offerId"] = offer_id
-
+                                # Update subscriberType in subscriberInfo to match customerInfo
+                                data_sets[i]["newAcctSubscriberInfos"][0]["newSubscriberInfos"]["subscriberInfo"]["subscriberType"] = data_sets[i]["customerInfo"]["subscriberType"]
+                
+                            # Update AccessSessionRequest fields
                             access_channel = st.session_state.get("AccessSessionRequest_accessChannel", "10050")
                             data_sets[0]["accessSessionRequest"]["accessChannel"] = access_channel
-
+                
+                            # Update transactionCommonInfo remark
                             remark = st.session_state.get("transactionCommonInfo_remark", "")
                             remark = remark.lstrip("TEST-").strip() if remark else random_string(4)
                             remark_value = f"TEST-{remark}"
@@ -1044,7 +1081,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                                 remark_value += f"CRQ{st.session_state.user_name}"
                             for data in data_sets:
                                 data["transactionCommonInfo"]["remark"] = remark_value
-
+                
+                            # Generate XML
                             xml = generate_soap_xml(data_sets)
                             st.session_state.output_xml = xml
                             st.success("SOAP XML generated successfully! Check the SOAP XML tab.")
