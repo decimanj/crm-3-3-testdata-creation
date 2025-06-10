@@ -553,6 +553,7 @@ offer_categories = {
     "96180": "Postpaid",
     "144882": "Postpaid",
     "167034": "Postpaid",
+    "437101": "Postpaid",
     "118888": "Postpaid"    
 }
 
@@ -572,6 +573,7 @@ offer_id_to_name = {
     "96180": "E-Reload Postpaid Plan_Master",
     "144882": "Go Digi 78",
     "167034": "Broadband Monthly 105",
+    "437101": "CelcomDigi ONE Home Wireless 5G",
     "118888": "Biz Handy",
 }
 
@@ -787,6 +789,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["167034"] * end_row
                         elif plan_option == "ALL_118888":
                             offer_ids = ["118888"] * end_row
+                        elif plan_option == "ALL_437101":
+                            offer_ids = ["437101"] * end_row 
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
                             remaining = end_row
@@ -884,6 +888,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             ("96180", "E-Reload Postpaid Plan_Master"),
                             ("144882", "Go Digi 78"),
                             ("118888", "Biz Handy"),
+                            ("437101", "CelcomDigi ONE Home Wireless 5G"),
                             ("167034","Broadband Monthly 105")
                         ]
                         # Filter offer options based on Prepaid/Postpaid selection
