@@ -569,7 +569,7 @@ offer_id_to_name = {
     "108879": "Digi Home Broadband",
     "175179": "TONE WOW",
     "411161": "Raja Kombo 5G (A02)",
-    "411161": "Mbits",
+    "167243": "Mbits",
     "214292": "CelcomDigi Postpaid 5G 60 XV",
     "96181": "E-Reload Postpaid Plan_Agent",
     "96180": "E-Reload Postpaid Plan_Master",
