@@ -549,6 +549,7 @@ offer_categories = {
     "175179": "Prepaid",
     "411161": "Prepaid",
     "167243": "Prepaid",
+    "215107": "Prepaid",
     "214292": "Postpaid",
     "96181": "Postpaid",
     "96180": "Postpaid",
@@ -570,7 +571,7 @@ offer_categories = {
     "399144": "Postpaid",
     "399146": "Postpaid",
     "399106": "Postpaid",
-    "399089": "Postpaid"
+    "399089": "Postpaid",
     
 }
 
@@ -586,6 +587,7 @@ offer_id_to_name = {
     "175179": "TONE WOW",
     "411161": "Raja Kombo 5G (A02)",
     "167243": "Mbits",
+    "215107": "Digi PREPAID  NEXT 107",
     "214292": "CelcomDigi Postpaid 5G 60 XV",
     "96181": "E-Reload Postpaid Plan_Agent",
     "96180": "E-Reload Postpaid Plan_Master",
@@ -608,7 +610,7 @@ offer_id_to_name = {
     "399146": "CelcomDigi Postpaid 5G 160",
     "399106": "CelcomDigi Postpaid 5G Family 50",
     "399089": "CelcomDigi Postpaid 5G Family 40",
-    
+ 
 }
 
 # Streamlit app
@@ -762,6 +764,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_175179", "ALL TONE WOW"),
                     ("ALL_411161", "ALL Raja Kombo 5G (A02)"),
                     ("ALL_167243", "ALL Mbits"),
+                    ("ALL_215107", "ALL Digi PREPAID  NEXT 107"),
                     ("MIX_3_411155_2_411156", "MIX 3 CelcomDigi Prepaid 5G Kuning (A01) & 2 CelcomDigi Prepaid 5G Kuning (A02)")
                 ]
                 postpaid_plan_options = [
@@ -826,7 +829,9 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                         elif plan_option == "ALL_175179":
                             offer_ids = ["175179"] * end_row 
                         elif plan_option == "ALL_167243":
-                            offer_ids = ["167243"] * end_row                             
+                            offer_ids = ["167243"] * end_row  
+                        elif plan_option == "ALL_215107":
+                            offer_ids = ["215107"] * end_row     
                         elif plan_option == "MIX_3_411155_2_411156":
                             offer_ids = ["411155"] * min(3, end_row) + ["411156"] * (end_row - min(3, end_row))
                     else:
@@ -873,7 +878,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                         elif plan_option == "ALL_399106":
                             offer_ids = ["399106"] * end_row
                         elif plan_option == "ALL_399089":
-                            offer_ids = ["399089"] * end_row                            
+                            offer_ids = ["399089"] * end_row    
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
                             remaining = end_row
@@ -964,6 +969,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             ("215105", "Digi Prepaid NEXT"),
                             ("87964", "DiGi Best Prepaid v4"),
                             ("167243", "Mbits"),
+                            ("215107", "Digi PREPAID  NEXT 107"),
                             ("108879", "Digi Home Broadband"),
                             ("175179", "TONE WOW"),
                             ("411161", "Raja Kombo 5G (A02)"),
