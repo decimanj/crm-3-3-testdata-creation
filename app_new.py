@@ -835,7 +835,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["167243"] * end_row  
                         elif plan_option == "ALL_215107":
                             offer_ids = ["215107"] * end_row
-                        elif plan option == "ALL_145078":
+                        elif plan_option == "ALL_145078":
                             offer_ids = ["145078"] * end_row
                         elif plan_option == "MIX_3_411155_2_411156":
                             offer_ids = ["411155"] * min(3, end_row) + ["411156"] * (end_row - min(3, end_row))
@@ -1260,3 +1260,4 @@ select MSISDN, RES_STATUS_ID from INVENTORY.RES_MSISDN where MSISDN in ({msisdn_
             st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
+
