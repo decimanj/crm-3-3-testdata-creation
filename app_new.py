@@ -550,6 +550,7 @@ offer_categories = {
     "411161": "Prepaid",
     "167243": "Prepaid",
     "215107": "Prepaid",
+    "145078": "Prepaid",
     "214292": "Postpaid",
     "96181": "Postpaid",
     "96180": "Postpaid",
@@ -588,6 +589,7 @@ offer_id_to_name = {
     "411161": "Raja Kombo 5G (A02)",
     "167243": "Mbits",
     "215107": "Digi PREPAID  NEXT 107",
+    "145078": "Digi Prepaid Best 2017",
     "214292": "CelcomDigi Postpaid 5G 60 XV",
     "96181": "E-Reload Postpaid Plan_Agent",
     "96180": "E-Reload Postpaid Plan_Master",
@@ -765,6 +767,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_411161", "ALL Raja Kombo 5G (A02)"),
                     ("ALL_167243", "ALL Mbits"),
                     ("ALL_215107", "ALL Digi PREPAID  NEXT 107"),
+                    ("ALL_145078", "ALL Digi Prepaid Best 2017"),
                     ("MIX_3_411155_2_411156", "MIX 3 CelcomDigi Prepaid 5G Kuning (A01) & 2 CelcomDigi Prepaid 5G Kuning (A02)")
                 ]
                 postpaid_plan_options = [
@@ -831,7 +834,9 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                         elif plan_option == "ALL_167243":
                             offer_ids = ["167243"] * end_row  
                         elif plan_option == "ALL_215107":
-                            offer_ids = ["215107"] * end_row     
+                            offer_ids = ["215107"] * end_row
+                        elif plan option == "ALL_145078":
+                            offer_ids = ["145078"] * end_row
                         elif plan_option == "MIX_3_411155_2_411156":
                             offer_ids = ["411155"] * min(3, end_row) + ["411156"] * (end_row - min(3, end_row))
                     else:
@@ -970,6 +975,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             ("87964", "DiGi Best Prepaid v4"),
                             ("167243", "Mbits"),
                             ("215107", "Digi PREPAID  NEXT 107"),
+                            ("145078", "Digi Prepaid Best 2017"),
                             ("108879", "Digi Home Broadband"),
                             ("175179", "TONE WOW"),
                             ("411161", "Raja Kombo 5G (A02)"),
