@@ -1054,12 +1054,12 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                            ("389162", "5G Home WiFi Sim"),
                            ("419070", "5G Home WiFi Special Plan"),
                            ("437101", "CelcomDigi ONE Home Wireless 5G"),
-                           ("ALL_401066", "ALL CelcomDigi ONE Pro"),
-                           ("ALL_435100", "ALL CelcomDigi ONE Lite"),
-                           ("ALL_167033", "ALL Broadband Monthly 65"),
-                           ("ALL_167037", "ALL Broadband Monthly 65 (Supp)"),
-                           ("ALL_167034", "ALL Broadband Monthly 105"),
-                           ("ALL_167032", "ALL Broadband Monthly 45"),                           
+                           ("401066", "CelcomDigi ONE Pro"),
+                           ("435100", "CelcomDigi ONE Lite"),
+                           ("167033", "Broadband Monthly 65"),
+                           ("167037", "Broadband Monthly 65 (Supp)"),
+                           ("167034", "Broadband Monthly 105"),
+                           ("167032", "Broadband Monthly 45"),                           
 
                         ]
                         # Filter offer options based on Prepaid/Postpaid selection
