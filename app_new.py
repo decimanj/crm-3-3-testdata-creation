@@ -577,6 +577,12 @@ offer_categories = {
     "389162": "Postpaid",
     "419070": "Postpaid",
     "437101": "Postpaid",
+    "401066": "Postpaid",
+    "435100": "Postpaid",
+    "167033": "Postpaid",
+    "167037": "Postpaid",
+    "167034": "Postpaid",
+    "167032": "Postpaid",
 }
 
 # Offer ID to name mapping for selectbox
@@ -619,6 +625,12 @@ offer_id_to_name = {
     "389162": "5G Home WiFi Sim",
     "419070": "5G Home WiFi Special Plan",
     "437101": "CelcomDigi ONE Home Wireless 5G",
+    "401066": "CelcomDigi ONE Pro",
+    "435100": "CelcomDigi ONE Lite",
+    "167033": "Broadband Monthly 65",
+    "167037": "Broadband Monthly 65 (Supp)",
+    "167034": "Broadband Monthly 105",
+    "167032": "Broadband Monthly 45",
  
 }
 
@@ -804,6 +816,12 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_389162", "ALL 5G Home WiFi Sim"), 
                     ("ALL_419070", "ALL 5G Home WiFi Special Plan"),
                     ("ALL_437101", "ALL CelcomDigi ONE Home Wireless 5G"),
+                    ("ALL_401066", "ALL CelcomDigi ONE Pro"),
+                    ("ALL_435100", "ALL CelcomDigi ONE Lite"),
+                    ("ALL_167033", "ALL Broadband Monthly 65"),
+                    ("ALL_167037", "ALL Broadband Monthly 65 (Supp)"),
+                    ("ALL_167034", "ALL Broadband Monthly 105"),
+                    ("ALL_167032", "ALL Broadband Monthly 45"),
                     ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
                     ("MIX_10_96181_10_96180", "MIX 10 E-Reload Postpaid Plan_Agent, 10 E-Reload Postpaid Plan_Master"),
                     ("MIX_10_214292_10_144882", "MIX 10 CelcomDigi Postpaid 5G 60 XV, 10 Go Digi 78")
@@ -902,7 +920,19 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                         elif plan_option == "ALL_419070":
                             offer_ids = ["419070"] * end_row
                         elif plan_option == "ALL_437101":
-                            offer_ids = ["437101"] * end_row                            
+                            offer_ids = ["437101"] * end_row
+                        elif plan_option == "ALL_401066":
+                            offer_ids = ["401066"] * end_row 
+                        elif plan_option == "ALL_435100":
+                            offer_ids = ["435100"] * end_row 
+                        elif plan_option == "ALL_167033":
+                            offer_ids = ["167033"] * end_row 
+                        elif plan_option == "ALL_167037":
+                            offer_ids = ["167037"] * end_row 
+                        elif plan_option == "ALL_167034":
+                            offer_ids = ["167034"] * end_row 
+                        elif plan_option == "ALL_167032":
+                            offer_ids = ["167032"] * end_row                             
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
                             remaining = end_row
@@ -1024,6 +1054,12 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                            ("389162", "5G Home WiFi Sim"),
                            ("419070", "5G Home WiFi Special Plan"),
                            ("437101", "CelcomDigi ONE Home Wireless 5G"),
+                           ("ALL_401066", "ALL CelcomDigi ONE Pro"),
+                           ("ALL_435100", "ALL CelcomDigi ONE Lite"),
+                           ("ALL_167033", "ALL Broadband Monthly 65"),
+                           ("ALL_167037", "ALL Broadband Monthly 65 (Supp)"),
+                           ("ALL_167034", "ALL Broadband Monthly 105"),
+                           ("ALL_167032", "ALL Broadband Monthly 45"),                           
 
                         ]
                         # Filter offer options based on Prepaid/Postpaid selection
