@@ -583,6 +583,8 @@ offer_categories = {
     "167037": "Postpaid",
     "167034": "Postpaid",
     "167032": "Postpaid",
+    "431058": "Postpaid",
+    "243252": "Postpaid",
 }
 
 # Offer ID to name mapping for selectbox
@@ -631,7 +633,8 @@ offer_id_to_name = {
     "167037": "Broadband Monthly 65 (Supp)",
     "167034": "Broadband Monthly 105",
     "167032": "Broadband Monthly 45",
- 
+    "431058": "CelcomDigi ONE Ultra",
+    "243252": "Digi Postpaid 90 2021",
 }
 
 # Streamlit app
@@ -822,6 +825,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_167037", "ALL Broadband Monthly 65 (Supp)"),
                     ("ALL_167034", "ALL Broadband Monthly 105"),
                     ("ALL_167032", "ALL Broadband Monthly 45"),
+                    ("ALL_431058", "ALL CelcomDigi ONE Ultra"),
+                    ("ALL_243252", "ALL Digi Postpaid 90 2021"),
                     ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
                     ("MIX_10_96181_10_96180", "MIX 10 E-Reload Postpaid Plan_Agent, 10 E-Reload Postpaid Plan_Master"),
                     ("MIX_10_214292_10_144882", "MIX 10 CelcomDigi Postpaid 5G 60 XV, 10 Go Digi 78")
@@ -932,7 +937,11 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                         elif plan_option == "ALL_167034":
                             offer_ids = ["167034"] * end_row 
                         elif plan_option == "ALL_167032":
-                            offer_ids = ["167032"] * end_row                             
+                            offer_ids = ["167032"] * end_row  
+                        elif plan_option == "ALL_431058":
+                            offer_ids = ["431058"] * end_row
+                        elif plan_option == "ALL_243252":
+                            offer_ids = ["243252"] * end_row                            
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
                             remaining = end_row
@@ -1059,8 +1068,9 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                            ("167033", "Broadband Monthly 65"),
                            ("167037", "Broadband Monthly 65 (Supp)"),
                            ("167034", "Broadband Monthly 105"),
-                           ("167032", "Broadband Monthly 45"),                           
-
+                           ("167032", "Broadband Monthly 45"),      
+                           ("431058", "CelcomDigi ONE Ultra"),
+                           ("243252", "Digi Postpaid 90 2021"),
                         ]
                         # Filter offer options based on Prepaid/Postpaid selection
                         if is_prepaid:
