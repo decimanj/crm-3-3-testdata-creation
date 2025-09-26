@@ -586,6 +586,7 @@ offer_categories = {
     "431058": "Postpaid",
     "243252": "Postpaid",
     "243283": "Postpaid",
+    "437113": "Postpaid",
 }
 
 # Offer ID to name mapping for selectbox
@@ -637,6 +638,7 @@ offer_id_to_name = {
     "431058": "CelcomDigi ONE Ultra",
     "243252": "Digi Postpaid 90 2021",
     "243283": "Digi Postpaid 150 2021",
+    "437113": "Home Wireless",
 }
 
 # Streamlit app
@@ -830,6 +832,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_431058", "ALL CelcomDigi ONE Ultra"),
                     ("ALL_243252", "ALL Digi Postpaid 90 2021"),
                     ("ALL_243283", "ALL Digi Postpaid 150 2021"),
+                    ("ALL_437113", "ALL Home Wireless"),
                     ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
                     ("MIX_10_96181_10_96180", "MIX 10 E-Reload Postpaid Plan_Agent, 10 E-Reload Postpaid Plan_Master"),
                     ("MIX_10_214292_10_144882", "MIX 10 CelcomDigi Postpaid 5G 60 XV, 10 Go Digi 78")
@@ -946,7 +949,9 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                         elif plan_option == "ALL_243252":
                             offer_ids = ["243252"] * end_row
                         elif plan_option == "ALL_243283":
-                            offer_ids = ["243283"] * end_row                            
+                            offer_ids = ["243283"] * end_row  
+                        elif plan_option == "ALL_437113":
+                            offer_ids = ["437113"] * end_row 
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
                             remaining = end_row
@@ -1077,6 +1082,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                            ("431058", "CelcomDigi ONE Ultra"),
                            ("243252", "Digi Postpaid 90 2021"),
                            ("243283", "Digi Postpaid 150 2021"),
+                           ("437113", "Home Wireless"),
                         ]
                         # Filter offer options based on Prepaid/Postpaid selection
                         if is_prepaid:
