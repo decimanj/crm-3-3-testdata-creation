@@ -590,6 +590,7 @@ offer_categories = {
     "365076": "Postpaid",
     "365074": "Postpaid",
     "353207": "Postpaid",
+    "365075": "Postpaid",
 }
 
 # Offer ID to name mapping for selectbox
@@ -645,6 +646,7 @@ offer_id_to_name = {
     "365076": "CelcomDigi Fibre 1Gbps",
     "365074": "CelcomDigi Fibre 500Mbps",
     "353207": "CelcomDigi Fibre 100Mbps",
+    "365075": "CelcomDigi Fibre 800Mbps",
 }
 
 # Streamlit app
@@ -842,6 +844,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_365076", "ALL CelcomDigi Fibre 1Gbps"),
                     ("ALL_365074", "ALL CelcomDigi Fibre 500Mbps"),
                     ("ALL_353207", "ALL CelcomDigi Fibre 100Mbps"),
+                    ("ALL_365075", "ALL CelcomDigi Fibre 800Mbps"),
                     ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
                     ("MIX_10_96181_10_96180", "MIX 10 E-Reload Postpaid Plan_Agent, 10 E-Reload Postpaid Plan_Master"),
                     ("MIX_10_214292_10_144882", "MIX 10 CelcomDigi Postpaid 5G 60 XV, 10 Go Digi 78")
@@ -967,6 +970,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["365074"] * end_row
                         elif plan_option == "ALL_353207":
                             offer_ids = ["353207"] * end_row
+                        elif plan_option == "ALL_365075":
+                            offer_ids = ["365075"] * end_row
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
                             remaining = end_row
@@ -1101,6 +1106,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                            ("365076", "CelcomDigi Fibre 1Gbps"),
                            ("365074", "CelcomDigi Fibre 500Mbps"),
                            ("353207", "CelcomDigi Fibre 100Mbps"),
+                           ("365075", "CelcomDigi Fibre 800Mbps"),
                         ]
                         # Filter offer options based on Prepaid/Postpaid selection
                         if is_prepaid:
