@@ -889,6 +889,10 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["215107"] * end_row
                         elif plan_option == "ALL_145078":
                             offer_ids = ["145078"] * end_row
+                        elif plan_option == "ALL_101045":
+                            offer_ids = ["101045"] * end_row
+                        elif plan_option == "ALL_411158":
+                            offer_ids = ["411158"] * end_row
                         elif plan_option == "MIX_3_411155_2_411156":
                             offer_ids = ["411155"] * min(3, end_row) + ["411156"] * (end_row - min(3, end_row))
                     else:
