@@ -802,6 +802,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_167243", "ALL Mbits"),
                     ("ALL_215107", "ALL Digi PREPAID  NEXT 107"),
                     ("ALL_145078", "ALL Digi Prepaid Best 2017"),
+                    ("101045", "ALL Digi Prepaid LiVE"),
+                    ("411158", "ALL Raja Kombo 5G (A01)"),
                     ("MIX_3_411155_2_411156", "MIX 3 CelcomDigi Prepaid 5G Kuning (A01) & 2 CelcomDigi Prepaid 5G Kuning (A02)")
                 ]
                 postpaid_plan_options = [
