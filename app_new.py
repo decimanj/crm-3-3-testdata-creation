@@ -683,7 +683,7 @@ offer_id_to_name = {
     "293004": "Go Digi 48 Supp SP",
     "281005": "Go Digi 98 SP",
     "237122": "Go Digi 168 DS",
-	"90008183": "CelcomDigi Business Postpaid 5G 58"
+	"90008183": "CelcomDigi Business Postpaid 5G 58",
     "417070": "CelcomDigi Business Postpaid 5G 168",
     "417067": "CelcomDigi Business Postpaid 5G 138 Supp",
     "411122": "CelcomDigi Business Postpaid 5G 168 DS",
@@ -1503,3 +1503,4 @@ select MSISDN, RES_STATUS_ID from INVENTORY.RES_MSISDN where MSISDN in ({msisdn_
             st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
+
