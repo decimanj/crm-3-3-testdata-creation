@@ -551,6 +551,8 @@ offer_categories = {
     "167243": "Prepaid",
     "215107": "Prepaid",
     "145078": "Prepaid",
+    "261078": "Prepaid",
+    "261072": "Prepaid",
     "214292": "Postpaid",
     "96181": "Postpaid",
     "96180": "Postpaid",
@@ -611,6 +613,8 @@ offer_id_to_name = {
     "167243": "Mbits",
     "215107": "Digi PREPAID  NEXT 107",
     "145078": "Digi Prepaid Best 2017",
+    "261078": "Raja kombo";
+    "261072": "Raja Kombo";
     "214292": "CelcomDigi Postpaid 5G 60 XV",
     "96181": "E-Reload Postpaid Plan_Agent",
     "96180": "E-Reload Postpaid Plan_Master",
@@ -812,6 +816,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_145078", "ALL Digi Prepaid Best 2017"),
                     ("ALL_101045", "ALL Digi Prepaid LiVE"),
                     ("ALL_411158", "ALL Raja Kombo 5G (A01)"),
+                    ("ALL_261078", "ALL Raja kombo"),
+                    ("ALL_261072", "ALL Raja Kombo"),
                     ("MIX_3_411155_2_411156", "MIX 3 CelcomDigi Prepaid 5G Kuning (A01) & 2 CelcomDigi Prepaid 5G Kuning (A02)")
                 ]
                 postpaid_plan_options = [
@@ -907,6 +913,10 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["101045"] * end_row
                         elif plan_option == "ALL_411158":
                             offer_ids = ["411158"] * end_row
+                        elif plan_option == "ALL_261078":
+                            offer_ids = ["261078"] * end_row
+                        elif plan_option == "ALL_261072":
+                            offer_ids = ["261072"] * end_row
                         elif plan_option == "MIX_3_411155_2_411156":
                             offer_ids = ["411155"] * min(3, end_row) + ["411156"] * (end_row - min(3, end_row))
                     else:
@@ -1093,6 +1103,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             ("108879", "Digi Home Broadband"),
                             ("175179", "TONE WOW"),
                             ("411161", "Raja Kombo 5G (A02)"),
+                            ("261078", "Raja kombo"),
+                            ("261072", "Raja Kombo"),
                             ("214292", "CelcomDigi Postpaid 5G 60 XV"),
                             ("96181", "E-Reload Postpaid Plan_Agent"),
                             ("96180", "E-Reload Postpaid Plan_Master"),
