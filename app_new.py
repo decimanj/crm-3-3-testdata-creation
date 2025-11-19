@@ -613,8 +613,8 @@ offer_id_to_name = {
     "167243": "Mbits",
     "215107": "Digi PREPAID  NEXT 107",
     "145078": "Digi Prepaid Best 2017",
-    "261078": "Raja kombo";
-    "261072": "Raja Kombo";
+    "261078": "Raja kombo",
+    "261072": "Raja Kombo",
     "214292": "CelcomDigi Postpaid 5G 60 XV",
     "96181": "E-Reload Postpaid Plan_Agent",
     "96180": "E-Reload Postpaid Plan_Master",
