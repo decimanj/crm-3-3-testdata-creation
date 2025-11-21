@@ -610,7 +610,7 @@ offer_categories = {
     "293004": "Postpaid", 
     "281005": "Postpaid", 
     "237122": "Postpaid", 
-    "90008183": "Postpaid"
+    "90008183": "Postpaid",
     "417070": "Postpaid", 
     "417067": "Postpaid", 
     "411122": "Postpaid", 
@@ -1534,3 +1534,4 @@ select MSISDN, RES_STATUS_ID from INVENTORY.RES_MSISDN where MSISDN in ({msisdn_
             st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
+
