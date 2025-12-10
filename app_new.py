@@ -1044,17 +1044,17 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["399148"] * end_row
                         elif plan_option == "ALL_99000037":
                             offer_ids = ["99000037"] * end_row
-						elif plan_option == "ALL_427070":
+                        elif plan_option == "ALL_427070":
                             offer_ids = ["427070"] * end_row
-						elif plan_option == "ALL_455072":
+                        elif plan_option == "ALL_455072":
                             offer_ids = ["455072"] * end_row
                         elif plan_option == "ALL_455074":
                             offer_ids = ["455074"] * end_row
-						elif plan_option == "ALL_455073":
+                        elif plan_option == "ALL_455073":
                             offer_ids = ["455073"] * end_row
-						elif plan_option == "ALL_455075":
+                        elif plan_option == "ALL_455075":
                             offer_ids = ["455075"] * end_row
-						elif plan_option == "ALL_353208":
+                        elif plan_option == "ALL_353208":
                             offer_ids = ["353208"] * end_row	                            
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
