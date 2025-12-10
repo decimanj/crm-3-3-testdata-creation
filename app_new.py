@@ -597,6 +597,13 @@ offer_categories = {
     "399075": "Postpaid",
     "399147": "Postpaid",
     "399148": "Postpaid",
+    "99000037": "Postpaid",
+    "427070": "Postpaid",
+    "455072": "Postpaid",
+    "455074": "Postpaid",
+    "455073": "Postpaid",
+    "455075": "Postpaid",
+    "353208": "Postpaid",
 }
 
 # Offer ID to name mapping for selectbox
@@ -659,6 +666,13 @@ offer_id_to_name = {
     "399075": "CelcomDigi Postpaid 5G 120 DS",
     "399147": "CelcomDigi Postpaid 5G 140 DS",
     "399148": "CelcomDigi Postpaid 5G 160 DS",
+    "99000037": "Biz Demo Flexi Plan",
+    "427070": "CD Dealer Benefit 120",
+    "455072": "CelcomDigi One Pro 2026",
+    "455074": "CelcomDigi One Pro DS 2026",
+    "455073": "CelcomDigi One Ultra 2026",
+    "455075": "CelcomDigi One Ultra DS 2026",
+    "353208": "CelcomDigi Fibre 300Mbps",
 }
 
 # Streamlit app
@@ -878,6 +892,13 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_399075", "ALL CelcomDigi Postpaid 5G 120 DS"),
                     ("ALL_399147", "ALL CelcomDigi Postpaid 5G 140 DS"),
                     ("ALL_399148", "ALL CelcomDigi Postpaid 5G 160 DS"),
+                    ("ALL_99000037", "ALL Biz Demo Flexi Plan"),
+                    ("ALL_427070", "ALL CD Dealer Benefit 120"),
+                    ("ALL_455072", "ALL CelcomDigi One Pro 2026"),
+                    ("ALL_455074", "ALL CelcomDigi One Pro DS 2026"),
+                    ("ALL_455073", "ALL CelcomDigi One Ultra 2026"),
+                    ("ALL_455075", "ALL CelcomDigi One Ultra DS 2026"),
+                    ("ALL_353208", "ALL CelcomDigi Fibre 300Mbps"),
                     ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
                     ("MIX_10_96181_10_96180", "MIX 10 E-Reload Postpaid Plan_Agent, 10 E-Reload Postpaid Plan_Master"),
                     ("MIX_10_214292_10_144882", "MIX 10 CelcomDigi Postpaid 5G 60 XV, 10 Go Digi 78")
@@ -1021,6 +1042,20 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["399147"] * end_row
                         elif plan_option == "ALL_399148":
                             offer_ids = ["399148"] * end_row
+                        elif plan_option == "ALL_99000037":
+                            offer_ids = ["99000037"] * end_row
+						elif plan_option == "ALL_427070":
+                            offer_ids = ["427070"] * end_row
+						elif plan_option == "ALL_455072":
+                            offer_ids = ["455072"] * end_row
+                        elif plan_option == "ALL_455074":
+                            offer_ids = ["455074"] * end_row
+						elif plan_option == "ALL_455073":
+                            offer_ids = ["455073"] * end_row
+						elif plan_option == "ALL_455075":
+                            offer_ids = ["455075"] * end_row
+						elif plan_option == "ALL_353208":
+                            offer_ids = ["353208"] * end_row	                            
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
                             remaining = end_row
@@ -1162,6 +1197,13 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                            ("399075", "CelcomDigi Postpaid 5G 120 DS"),
                            ("399147", "CelcomDigi Postpaid 5G 140 DS"),
                            ("399148", "CelcomDigi Postpaid 5G 160 DS"),
+                           ("99000037", "Biz Demo Flexi Plan"),
+                           ("427070", "CD Dealer Benefit 120"),
+                           ("455072", "CelcomDigi One Pro 2026"),
+                           ("455074", "CelcomDigi One Pro DS 2026"),
+                           ("455073", "CelcomDigi One Ultra 2026"),
+                           ("455075", "CelcomDigi One Ultra DS 2026"),
+                           ("353208", "CelcomDigi Fibre 300Mbps"),
                         ]
                         # Filter offer options based on Prepaid/Postpaid selection
                         if is_prepaid:
