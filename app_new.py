@@ -553,6 +553,7 @@ offer_categories = {
     "145078": "Prepaid",
     "261078": "Prepaid",
     "261072": "Prepaid",
+    "411157": "Prepaid",
     "214292": "Postpaid",
     "96181": "Postpaid",
     "96180": "Postpaid",
@@ -597,7 +598,6 @@ offer_categories = {
     "399075": "Postpaid",
     "399147": "Postpaid",
     "399148": "Postpaid",
-    "99000037": "Postpaid",
     "427070": "Postpaid",
     "455072": "Postpaid",
     "455074": "Postpaid",
@@ -606,6 +606,14 @@ offer_categories = {
     "353208": "Postpaid",
     "177039": "Postpaid",
     "99000037": "Postpaid",
+    "379062": "Postpaid",
+    "90011365": "Postpaid",
+    "399076": "Postpaid",
+    "455080": "Postpaid",
+    "399149": "Postpaid",
+    "399090": "Postpaid",
+    "411122": "Postpaid",
+    "411123": "Postpaid",
 }
 
 # Offer ID to name mapping for selectbox
@@ -668,7 +676,6 @@ offer_id_to_name = {
     "399075": "CelcomDigi Postpaid 5G 120 DS",
     "399147": "CelcomDigi Postpaid 5G 140 DS",
     "399148": "CelcomDigi Postpaid 5G 160 DS",
-    "99000037": "Biz Demo Flexi Plan",
     "427070": "CD Dealer Benefit 120",
     "455072": "CelcomDigi One Pro 2026",
     "455074": "CelcomDigi One Pro DS 2026",
@@ -677,6 +684,15 @@ offer_id_to_name = {
     "353208": "CelcomDigi Fibre 300Mbps",
     "177039": "Digi Postpaid 38",
     "99000037": "CelcomDigi Business Dealer Privilege Line 120",
+    "379062": "CelcomDigi 5G Home WiFi 149",
+    "90011365": "CelcomDigi 5G Home WiFi 99",
+    "399076": "CelcomDigi Postpaid 5G 60 SE",
+    "455080": "CelcomDigi Postpaid 5G Family 50 (ONE) 2026",
+    "399149": "CelcomDigi Postpaid 5G Family 50 DS",
+    "399090": "CelcomDigi Postpaid 5G Family SE",
+    "411157": "CelcomDigi Prepaid 5G Kuning (A03)",
+    "411122": "CelcomDigi Business Postpaid 5G 138 DS",
+    "411123": "CelcomDigi Business Postpaid 5G 168 DS",
 }
 
 # Streamlit app
@@ -849,6 +865,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_411158", "ALL Raja Kombo 5G (A01)"),
                     ("ALL_261078", "ALL Raja kombo"),
                     ("ALL_261072", "ALL Raja Kombo"),
+                    ("ALL_411157", "ALL CelcomDigi Prepaid 5G Kuning (A03)"),
                     ("MIX_3_411155_2_411156", "MIX 3 CelcomDigi Prepaid 5G Kuning (A01) & 2 CelcomDigi Prepaid 5G Kuning (A02)")
                 ]
                 postpaid_plan_options = [
@@ -896,7 +913,6 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_399075", "ALL CelcomDigi Postpaid 5G 120 DS"),
                     ("ALL_399147", "ALL CelcomDigi Postpaid 5G 140 DS"),
                     ("ALL_399148", "ALL CelcomDigi Postpaid 5G 160 DS"),
-                    ("ALL_99000037", "ALL Biz Demo Flexi Plan"),
                     ("ALL_427070", "ALL CD Dealer Benefit 120"),
                     ("ALL_455072", "ALL CelcomDigi One Pro 2026"),
                     ("ALL_455074", "ALL CelcomDigi One Pro DS 2026"),
@@ -905,6 +921,14 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_353208", "ALL CelcomDigi Fibre 300Mbps"),
                     ("ALL_177039", "ALL Digi Postpaid 38"),
                     ("ALL_99000037", "ALL CelcomDigi Business Dealer Privilege Line 120"),
+                    ("ALL_379062", "ALL CelcomDigi 5G Home WiFi 149"),
+                    ("ALL_90011365", "ALL CelcomDigi 5G Home WiFi 99"),
+                    ("ALL_399076", "ALL CelcomDigi Postpaid 5G 60 SE"),
+                    ("ALL_455080", "ALL CelcomDigi Postpaid 5G Family 50 (ONE) 2026"),
+                    ("ALL_399149", "ALL CelcomDigi Postpaid 5G Family 50 DS"),
+                    ("ALL_399090", "ALL CelcomDigi Postpaid 5G Family SE"),
+                    ("ALL_411122", "ALL CelcomDigi Business Postpaid 5G 138 DS"),
+                    ("ALL_411123", "ALL CelcomDigi Business Postpaid 5G 168 DS"),
                     ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
                     ("MIX_10_96181_10_96180", "MIX 10 E-Reload Postpaid Plan_Agent, 10 E-Reload Postpaid Plan_Master"),
                     ("MIX_10_214292_10_144882", "MIX 10 CelcomDigi Postpaid 5G 60 XV, 10 Go Digi 78")
@@ -957,6 +981,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["261078"] * end_row
                         elif plan_option == "ALL_261072":
                             offer_ids = ["261072"] * end_row
+                        elif plan_option == "ALL_411157":
+                            offer_ids = ["411157"] * end_row    
                         elif plan_option == "MIX_3_411155_2_411156":
                             offer_ids = ["411155"] * min(3, end_row) + ["411156"] * (end_row - min(3, end_row))
                     else:
@@ -1048,8 +1074,6 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["399147"] * end_row
                         elif plan_option == "ALL_399148":
                             offer_ids = ["399148"] * end_row
-                        elif plan_option == "ALL_99000037":
-                            offer_ids = ["99000037"] * end_row
                         elif plan_option == "ALL_427070":
                             offer_ids = ["427070"] * end_row
                         elif plan_option == "ALL_455072":
@@ -1066,6 +1090,22 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["177039"] * end_row
                         elif plan_option == "ALL_99000037":
                             offer_ids = ["99000037"] * end_row
+                        elif plan_option == "ALL_379062":
+                            offer_ids = ["379062"] * end_row
+                        elif plan_option == "ALL_90011365":
+                            offer_ids = ["90011365"] * end_row
+                        elif plan_option == "ALL_399076":
+                            offer_ids = ["399076"] * end_row
+                        elif plan_option == "ALL_455080":
+                            offer_ids = ["455080"] * end_row
+                        elif plan_option == "ALL_399149":
+                            offer_ids = ["399149"] * end_row 
+                        elif plan_option == "ALL_399090":
+                            offer_ids = ["399090"] * end_row
+                        elif plan_option == "ALL_411122":
+                            offer_ids = ["411122"] * end_row
+                        elif plan_option == "ALL_411123":
+                            offer_ids = ["411123"] * end_row    
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
                             remaining = end_row
@@ -1207,7 +1247,6 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                            ("399075", "CelcomDigi Postpaid 5G 120 DS"),
                            ("399147", "CelcomDigi Postpaid 5G 140 DS"),
                            ("399148", "CelcomDigi Postpaid 5G 160 DS"),
-                           ("99000037", "Biz Demo Flexi Plan"),
                            ("427070", "CD Dealer Benefit 120"),
                            ("455072", "CelcomDigi One Pro 2026"),
                            ("455074", "CelcomDigi One Pro DS 2026"),
@@ -1216,6 +1255,15 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                            ("353208", "CelcomDigi Fibre 300Mbps"),
                            ("177039", "Digi Postpaid 38"),
                            ("99000037", "CelcomDigi Business Dealer Privilege Line 120"),
+                           ("379062", "CelcomDigi 5G Home WiFi 149"),
+                           ("90011365", "CelcomDigi 5G Home WiFi 99"),
+                           ("399076", "CelcomDigi Postpaid 5G 60 SE"),
+                           ("455080", "CelcomDigi Postpaid 5G Family 50 (ONE) 2026"),
+                           ("399149", "CelcomDigi Postpaid 5G Family 50 DS"),
+                           ("399090", "CelcomDigi Postpaid 5G Family SE"),
+                           ("411157", "CelcomDigi Prepaid 5G Kuning (A03)"),
+                           ("411122", "CelcomDigi Business Postpaid 5G 138 DS"),
+                           ("411123", "CelcomDigi Business Postpaid 5G 168 DS"),
                         ]
                         # Filter offer options based on Prepaid/Postpaid selection
                         if is_prepaid:
@@ -1474,3 +1522,4 @@ select MSISDN, RES_STATUS_ID from INVENTORY.RES_MSISDN where MSISDN in ({msisdn_
             st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
+
