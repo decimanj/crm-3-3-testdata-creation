@@ -616,6 +616,7 @@ offer_categories = {
     "411123": "Postpaid",
     "455103": "Postpaid",
     "243235": "Postpaid",
+    "216291": "Postpaid",
 }
 
 # Offer ID to name mapping for selectbox
@@ -697,6 +698,7 @@ offer_id_to_name = {
     "411123": "CelcomDigi Business Postpaid 5G 168 DS",
     "455103": "CelcomDigi Postpaid 5G 190 2026",
     "243235": "Digi Postpaid 120 2021",
+    "216291": "CelcomDigi Postpaid 5G 55 XV",
 }
 
 # Streamlit app
@@ -935,6 +937,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_411123", "ALL CelcomDigi Business Postpaid 5G 168 DS"),
                     ("ALL_455103", "ALL CelcomDigi Postpaid 5G 190 2026"),
                     ("ALL_243235", "ALL Digi Postpaid 120 2021"),
+                    ("ALL_216291", "ALL CelcomDigi Postpaid 5G 55 XV"),
                     ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
                     ("MIX_10_96181_10_96180", "MIX 10 E-Reload Postpaid Plan_Agent, 10 E-Reload Postpaid Plan_Master"),
                     ("MIX_10_214292_10_144882", "MIX 10 CelcomDigi Postpaid 5G 60 XV, 10 Go Digi 78")
@@ -1116,6 +1119,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["455103"] * end_row
                         elif plan_option == "ALL_243235":
                             offer_ids = ["243235"] * end_row
+                        elif plan_option == "ALL_216291":
+                            offer_ids = ["216291"] * end_row    
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
                             remaining = end_row
@@ -1276,6 +1281,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                            ("411123", "CelcomDigi Business Postpaid 5G 168 DS"),
                            ("455103", "CelcomDigi Postpaid 5G 190 2026"),
                            ("243235", "Digi Postpaid 120 2021"),
+                           ("216291", "CelcomDigi Postpaid 5G 55 XV"),
                         ]
                         # Filter offer options based on Prepaid/Postpaid selection
                         if is_prepaid:
