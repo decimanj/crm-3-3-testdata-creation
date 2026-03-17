@@ -625,7 +625,7 @@ offer_categories = {
     "144881": "Postpaid",
     "237122": "Postpaid",
     "600527": "Postpaid",
-    "610094": "Postpaid",
+    "211011": "Postpaid",
     "243246": "Postpaid",
     "243294": "Postpaid",
 }
@@ -718,7 +718,7 @@ offer_id_to_name = {
     "144881": "Go Digi 48",
     "237122": "Go Digi 48 Supp",
     "600527": "Digi Postpaid 28",
-    "610094": "Go Digi 78 DS",
+    "211011": "Go Digi 78 DS",
     "243246": "Digi Postpaid 150 DS 2021",
     "243294": "Digi Postpaid 60 2021",
 }
@@ -968,7 +968,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_144881", "ALL Go Digi 48"),
                     ("ALL_237122", "ALL Go Digi 48 Supp"),
                     ("ALL_600527", "ALL Digi Postpaid 28"),
-                    ("ALL_610094", "ALL Go Digi 78 DS"),
+                    ("ALL_211011", "ALL Go Digi 78 DS"),
                     ("ALL_243246", "ALL Digi Postpaid 150 DS 2021"),
                     ("ALL_243294", "ALL Digi Postpaid 60 2021"),
                     ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
@@ -1170,8 +1170,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                             offer_ids = ["237122"] * end_row
                         elif plan_option == "ALL_600527":
                             offer_ids = ["600527"] * end_row
-                        elif plan_option == "ALL_610094":
-                            offer_ids = ["610094"] * end_row
+                        elif plan_option == "ALL_211011":
+                            offer_ids = ["211011"] * end_row
                         elif plan_option == "ALL_243246":
                             offer_ids = ["243246"] * end_row
                         elif plan_option == "ALL_243294":
@@ -1345,7 +1345,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                            ("144881", "Go Digi 48"),
                            ("237122", "Go Digi 48 Supp"),
                            ("600527", "Digi Postpaid 28"),
-                           ("610094", "Go Digi 78 DS"),
+                           ("211011", "Go Digi 78 DS"),
                            ("243246", "Digi Postpaid 150 DS 2021"),
                            ("243294", "Digi Postpaid 60 2021"),
                         ]
