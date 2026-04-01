@@ -631,6 +631,7 @@ offer_categories = {
     "455099": "Postpaid",
     "455097": "Postpaid",
     "455095": "Postpaid",
+    "399102": "Postpaid",
 }
 
 # Offer ID to name mapping for selectbox
@@ -727,6 +728,7 @@ offer_id_to_name = {
     "455099": "CelcomDigi Postpaid 5G 140 2026",
     "455097": "CelcomDigi Postpaid 5G 120 2026",
     "455095": "CelcomDigi Postpaid 5G 100 2026",
+    "399102": "CelcomDigi Postpaid 5G 80",
 }
 
 # Streamlit app
@@ -980,6 +982,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_455099", "CelcomDigi Postpaid 5G 140 2026"),
                     ("ALL_455097", "CelcomDigi Postpaid 5G 120 2026"),
                     ("ALL_455095", "CelcomDigi Postpaid 5G 100 2026"),
+                    ("ALL_399102", "CelcomDigi Postpaid 5G 80"),
                     ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
                     ("MIX_10_96181_10_96180", "MIX 10 E-Reload Postpaid Plan_Agent, 10 E-Reload Postpaid Plan_Master"),
                     ("MIX_10_214292_10_144882", "MIX 10 CelcomDigi Postpaid 5G 60 XV, 10 Go Digi 78")
@@ -1190,7 +1193,9 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                         elif plan_option == "ALL_455097":
                             offer_ids = ["455097"] * end_row
                         elif plan_option == "ALL_455095":
-                            offer_ids = ["455095"] * end_row    
+                            offer_ids = ["455095"] * end_row
+                        elif plan_option == "ALL_399102":
+                            offer_ids = ["399102"] * end_row     
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
                             remaining = end_row
@@ -1366,6 +1371,7 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                            ("455099", "CelcomDigi Postpaid 5G 140 2026"),
                            ("455097", "CelcomDigi Postpaid 5G 120 2026"),
                            ("455095", "CelcomDigi Postpaid 5G 100 2026"),
+                           ("399102", "CelcomDigi Postpaid 5G 80"),
                         ]
                         # Filter offer options based on Prepaid/Postpaid selection
                         if is_prepaid:
