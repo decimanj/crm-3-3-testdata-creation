@@ -632,6 +632,14 @@ offer_categories = {
     "455097": "Postpaid",
     "455095": "Postpaid",
     "399102": "Postpaid",
+    "455088": "Postpaid",
+    "435114": "Postpaid",
+    "211011": "Postpaid",
+    "144882": "Postpaid",
+    "155275": "Postpaid",
+    "147249": "Postpaid",
+    "211014": "Postpaid",
+    "237469": "Postpaid",
 }
 
 # Offer ID to name mapping for selectbox
@@ -729,6 +737,14 @@ offer_id_to_name = {
     "455097": "CelcomDigi Postpaid 5G 120 2026",
     "455095": "CelcomDigi Postpaid 5G 100 2026",
     "399102": "CelcomDigi Postpaid 5G 80",
+    "455088": "CelcomDigi Postpaid 5G Supp 120 2026",
+    "435114": "CelcomDigi Fibre 2Gbps",
+    "211011": "Go Digi 78 DS",
+    "144882": "Go Digi 78  ",
+    "155275": "Go Digi 90",
+    "147249": "Digi 38",
+    "211014": "Go Digi 168 DS",
+    "237469": "Digi Internet Freedom Mobile 60",
 }
 
 # Streamlit app
@@ -979,10 +995,18 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                     ("ALL_211011", "ALL Go Digi 78 DS"),
                     ("ALL_243246", "ALL Digi Postpaid 150 DS 2021"),
                     ("ALL_243294", "ALL Digi Postpaid 60 2021"),
-                    ("ALL_455099", "CelcomDigi Postpaid 5G 140 2026"),
-                    ("ALL_455097", "CelcomDigi Postpaid 5G 120 2026"),
-                    ("ALL_455095", "CelcomDigi Postpaid 5G 100 2026"),
-                    ("ALL_399102", "CelcomDigi Postpaid 5G 80"),
+                    ("ALL_455099", "ALL CelcomDigi Postpaid 5G 140 2026"),
+                    ("ALL_455097", "ALL CelcomDigi Postpaid 5G 120 2026"),
+                    ("ALL_455095", "ALL CelcomDigi Postpaid 5G 100 2026"),
+                    ("ALL_399102", "ALL CelcomDigi Postpaid 5G 80"),
+                    ("ALL_455088", "ALL CelcomDigi Postpaid 5G Supp 120 2026"),
+                    ("ALL_435114", "ALL CelcomDigi Fibre 2Gbps"),
+                    ("ALL_211011", "ALL Go Digi 78 DS"),
+                    ("ALL_144882", "ALL Go Digi 78  "),
+                    ("ALL_155275", "ALL Go Digi 90"),
+                    ("ALL_147249", "ALL Digi 38"),
+                    ("ALL_211014", "ALL Go Digi 168 DS"),
+                    ("ALL_237469", "ALL Digi Internet Freedom Mobile 60"),
                     ("MIX_5_214292_5_96181_5_96180_5_144882", "MIX 5 CelcomDigi Postpaid 5G 60 XV, 5 E-Reload Postpaid Plan_Agent, 5 E-Reload Postpaid Plan_Master, 5 Go Digi 78"),
                     ("MIX_10_96181_10_96180", "MIX 10 E-Reload Postpaid Plan_Agent, 10 E-Reload Postpaid Plan_Master"),
                     ("MIX_10_214292_10_144882", "MIX 10 CelcomDigi Postpaid 5G 60 XV, 10 Go Digi 78")
@@ -1195,7 +1219,23 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                         elif plan_option == "ALL_455095":
                             offer_ids = ["455095"] * end_row
                         elif plan_option == "ALL_399102":
-                            offer_ids = ["399102"] * end_row     
+                            offer_ids = ["399102"] * end_row
+                        elif plan_option == "ALL_455088":
+                            offer_ids = ["455088"] * end_row
+                        elif plan_option == "ALL_435114":
+                            offer_ids = ["435114"] * end_row
+                        elif plan_option == "ALL_211011":
+                            offer_ids = ["211011"] * end_row
+                        elif plan_option == "ALL_144882":
+                            offer_ids = ["144882"] * end_row
+                        elif plan_option == "ALL_155275":
+                            offer_ids = ["155275"] * end_row
+                        elif plan_option == "ALL_147249":
+                            offer_ids = ["147249"] * end_row
+                        elif plan_option == "ALL_211014":
+                            offer_ids = ["211014"] * end_row
+                        elif plan_option == "ALL_237469":
+                            offer_ids = ["237469"] * end_row    
                         elif plan_option == "MIX_5_214292_5_96181_5_96180_5_144882":
                             sets_per_plan = min(5, end_row // 4 + (1 if end_row % 4 > 0 else 0))
                             remaining = end_row
@@ -1372,6 +1412,14 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                            ("455097", "CelcomDigi Postpaid 5G 120 2026"),
                            ("455095", "CelcomDigi Postpaid 5G 100 2026"),
                            ("399102", "CelcomDigi Postpaid 5G 80"),
+                           ("455088", "CelcomDigi Postpaid 5G Supp 120 2026"),
+                           ("435114", "CelcomDigi Fibre 2Gbps"),
+                           ("211011", "Go Digi 78 DS"),
+                           ("144882", "Go Digi 78  "),
+                           ("155275", "Go Digi 90"),
+                           ("147249", "Digi 38"),
+                           ("211014", "Go Digi 168 DS"),
+                           ("237469", "Digi Internet Freedom Mobile 60"),
                         ]
                         # Filter offer options based on Prepaid/Postpaid selection
                         if is_prepaid:
