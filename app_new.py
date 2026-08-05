@@ -6,6 +6,7 @@ import xml.etree.ElementTree as ET
 import xml.dom.minidom as minidom
 import re
 import uuid
+import pandas as pd
 
 st.set_page_config(page_title="CRM 3.3 Staging Test Data Creation Tools")
 
@@ -536,6 +537,48 @@ def generate_soap_xml(data_sets):
     parsed = minidom.parseString(rough_string)
     pretty_xml = parsed.toprettyxml(indent="    ", encoding="UTF-8").decode("UTF-8")
     return pretty_xml
+
+# ==========================================
+# Subscriber Type LOV
+# ==========================================
+SUBSCRIBER_TYPE_LOV = {
+    "1": "Mass",
+    "2": "PCI",
+    "3": "Ambassador",
+    "4": "USP",
+    "5": "CI",
+    "6": "Corporate",
+    "7": "Dealer Demo",
+    "8": "Dealer STK/Flexi",
+    "9": "Staff",
+    "10": "Test",
+    "11": "Dealer Ambassador"
+}
+
+# ==========================================
+# ID Type LOV
+# ==========================================
+ID_TYPE_LOV = {
+    "1": "NRIC",
+    "2": "Armed Force",
+    "3": "BRN (Business Registration No.)",
+    "4": "Passport",
+    "5": "Work Permit",
+    "6": "Old IC",
+    "7": "IMM13",
+    "8": "MyKAS",
+    "9": "UNHCR"
+}
+
+# ==========================================
+# Nationality LOV
+# ==========================================
+nationality_df = pd.read_csv("nationality lov.csv")
+
+NATIONALITY_LOV = {
+    str(row["ID"]): str(row["Remark/Description"])
+    for _, row in nationality_df.iterrows()
+}
 
 # Offer categories mapping
 offer_categories = {
@@ -1454,7 +1497,8 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                         offer_id = st.selectbox(
                             "",
                             options=offer_options,
-                            format_func=lambda x: x[1],
+                            format_func=lambda x:
+                                f"{x[0]} - {x[1]}" if x[0] else x[1],
                             index=offer_index,
                             key=f"offerId_{i}"
                         )
@@ -1502,12 +1546,82 @@ WHERE RES_STATUS_ID LIKE '2' AND IS_BIND = '0' AND DEPT_ID ='300' AND BE_ID = '1
                         for key, value in section["fields"].items():
                             # Special handling for subscriberType to make it clear and user-friendly
                             if key == "subscriberType":
-                                st.text_input(
-                                    "Subscriber Type",
-                                    value=st.session_state.get(f"customerInfo_subscriberType", value),
-                                    placeholder="e.g., 1-Mass, 6-Corporate",
-                                    key=f"customerInfo_subscriberType"
+
+                                current_value = st.session_state.get(
+                                    "customerInfo_subscriberType",
+                                    str(value)
                                 )
+
+                                options = list(SUBSCRIBER_TYPE_LOV.keys())
+
+                                try:
+                                    selected_index = options.index(str(current_value))
+                                except:
+                                    selected_index = 0
+
+                                st.selectbox(
+                                    "Subscriber Type",
+                                    options=options,
+                                    index=selected_index,
+                                    format_func=lambda x: f"{x} - {SUBSCRIBER_TYPE_LOV[x]}",
+                                    key="customerInfo_subscriberType"
+                                )
+
+                            elif key == "idType":
+
+                                current_value = st.session_state.get(
+                                    "customerInfo_idType",
+                                    str(value)
+                                )
+
+                                options = list(ID_TYPE_LOV.keys())
+
+                                try:
+                                    selected_index = options.index(str(current_value))
+                                except:
+                                    selected_index = 0
+
+                                st.selectbox(
+                                    "ID Type",
+                                    options=options,
+                                    index=selected_index,
+                                    format_func=lambda x: f"{x} - {ID_TYPE_LOV[x]}",
+                                    key="customerInfo_idType"
+                                )
+
+                            elif key == "nationality":
+
+                                current_value = str(
+                                    st.session_state.get(
+                                        "customerInfo_nationality",
+                                        value
+                                    )
+                                )
+
+                                nationality_options = [
+                                    f"{code} - {desc}"
+                                    for code, desc in NATIONALITY_LOV.items()
+                                ]
+
+                                default_option = next(
+                                    (
+                                        x for x in nationality_options
+                                        if x.startswith(f"{current_value} -")
+                                    ),
+                                    nationality_options[0]
+                                )
+
+                                selected = st.selectbox(
+                                    "Nationality",
+                                    options=nationality_options,
+                                    index=nationality_options.index(default_option),
+                                    key="customerInfo_nationality_display"
+                                )
+
+                                st.session_state["customerInfo_nationality"] = (
+                                    selected.split(" - ", 1)[0]
+                                )
+
                             else:
                                 st.text_input(
                                     key,
