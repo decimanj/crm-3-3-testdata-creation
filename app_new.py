@@ -6,7 +6,6 @@ import xml.etree.ElementTree as ET
 import xml.dom.minidom as minidom
 import re
 import uuid
-import requests
 
 st.set_page_config(page_title="CRM 3.3 Staging Test Data Creation Tools")
 
@@ -71,41 +70,6 @@ def random_transaction_id():
 def random_customer_id():
     random8 = str(random.randint(0, 99999999)).zfill(8)
     return f"10000{random8}"
-
-def get_msisdn_from_service(xml_payload):
-
-    endpoint = (
-        "http://10.100.15.233:8060/"
-        "crm/services/CRMExternalInterfaceService"
-    )
-
-    headers = {
-        "Content-Type": "text/xml;charset=UTF-8"
-    }
-
-    try:
-
-        response = requests.post(
-            endpoint,
-            data=xml_payload.encode("utf-8"),
-            headers=headers,
-            timeout=60
-        )
-
-        response.raise_for_status()
-
-        return {
-            "success": True,
-            "response": response.text
-        }
-
-    except Exception as ex:
-
-        return {
-            "success": False,
-            "error": str(ex)
-        }
-
 
 def parse_msisdn_output(xml_output):
     try:
@@ -903,46 +867,17 @@ else:
 </sch:getPhoneNumbers>
 </soapenv:Body>
 </soapenv:Envelope>"""
-            #         st.text_area("MSISDN XML", xml, height=200, key="msisdn_xml")
-            #         st.session_state.show_msisdn_input = True
-            #         st.success("✔ Run this in SoapUI")
+                    st.text_area("MSISDN XML", xml, height=200, key="msisdn_xml")
+                    st.session_state.show_msisdn_input = True
+                    st.success("✔ Run this in SoapUI")
             
-            # if st.session_state.get("show_msisdn_input", False):
-            #     msisdn_output = st.text_area("Paste MSISDN Output Here", height=150, key="msisdn_output")
-            #     if msisdn_output:
-            #         msisdns = parse_msisdn_output(msisdn_output)
-            #         if msisdns:
-            #             st.session_state.msisdns = msisdns
-            #             st.success(f"Extracted {len(msisdns)} MSISDNs. They will be auto-filled in the Data Input tab.")
-
-                    result = get_msisdn_from_service(xml)
-
-                    if result["success"]:
-                        response_xml = result["response"]
-                        st.session_state.msisdn_output = response_xml
-                        msisdns = parse_msisdn_output(
-                            response_xml
-                        )
-                        if msisdns:
-                            st.session_state.msisdns = msisdns
-                            st.success(
-                                f"Retrieved {len(msisdns)} MSISDN(s)"
-                            )
-                        else:
-                            st.error(
-                                "No MSISDN found in response."
-                            )
-                    else:
-                        st.error(
-                            result["error"]
-                        )
-                    
-                    if "msisdn_output" in st.session_state:
-                        st.text_area(
-                            "MSISDN Output",
-                            st.session_state.msisdn_output,
-                            height=250
-                        )
+            if st.session_state.get("show_msisdn_input", False):
+                msisdn_output = st.text_area("Paste MSISDN Output Here", height=150, key="msisdn_output")
+                if msisdn_output:
+                    msisdns = parse_msisdn_output(msisdn_output)
+                    if msisdns:
+                        st.session_state.msisdns = msisdns
+                        st.success(f"Extracted {len(msisdns)} MSISDNs. They will be auto-filled in the Data Input tab.")
 
             with col4:
                 if st.button("Get ICCID", key="get_iccid", use_container_width=True):
